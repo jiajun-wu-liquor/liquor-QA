@@ -1,12 +1,10 @@
 package firefoxFramework;
 
-public class firefoxTest {
+public class firefoxTest implements configConstants {
 	
 	public static void main(String[] args) {
-	    
-		String CHROMEDRIVER_PATH = "C://Users//david//workspace//addons//chromedriver.exe";
-		
-		System.out.println("Beginning functional test on chrome...");
+	   
+		System.out.println(LOG_TEST_BROWSER_START + "Chrome...");
 		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
 	    ChromeBrowser chrome = new ChromeBrowser();
 	    chrome.loginTest();
@@ -15,7 +13,7 @@ public class firefoxTest {
 	    chrome.quit();
 	    chrome.summarise();
 	    
-		System.out.println("Beginning functional test on Firefox...");
+		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
 	    FirefoxBrowser firefox = new FirefoxBrowser();
 	    firefox.loginTest();
 	    firefox.saveRecipeTest();
@@ -40,3 +38,25 @@ public class firefoxTest {
 	    return profile;
 	}*/
 }
+
+/* Temp dump
+   package firefoxFramework;
+
+	public interface configConstants {
+	public String CHROMEDRIVER_PATH = "C:////Users//david//workspace//LDC//addons//chromedriver.exe";
+	
+	public String LOGIN_USER_FF = "ghost5";
+	public String LOGIN_PASS_FF = "ghostghost";
+	
+	public String LOGIN_USER_CH = "ghost6";
+	public String LOGIN_PASS_CH = "ghostghost";
+	
+	public String LOG_TEST_BROWSER_START = "Beginning functional test on ";
+	
+	public String LOG_TEST_LOGIN_PASS = " login - Successful";
+	public String LOG_TEST_SAVERECIPE_PASS = " save recipe - Successful";
+	public String LOG_TEST_LOGOUT_PASS =  "logout - Successful";
+	
+	public String LOG_TEST_SUMMARY_PAGES = "pages were loaded\n";
+}
+*/

@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ChromeBrowser extends ChromeDriver {
+public class ChromeBrowser extends ChromeDriver implements configConstants {
 	
 	int LOAD_WAIT_TIME = 1000;
 	long startTime;
@@ -21,15 +21,15 @@ public class ChromeBrowser extends ChromeDriver {
 	    // Go through log in step 
 	    waitOut();
 	    clickByClass("ldc-user-login");
-	    findElement(By.id("login_username")).sendKeys("ghost6"); 
-	    findElement(By.id("login_password")).sendKeys("ghostghost");
+	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_CH); 
+	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS_CH);
 	    
 	    startLoadTimer();
 	    clickByID("ldc-user-signin-button");
 	    logLoadTime();
 	    
 	    if (pageDoesContainClass("ldc-user-log-out")) {
-	    	System.out.println("• Chrome login - Successful");
+	    	System.out.println("• Chrome" + LOG_TEST_LOGIN_PASS);
 	    }
 	
 	}
@@ -41,7 +41,7 @@ public class ChromeBrowser extends ChromeDriver {
 		
 		goToLink("http://liquor.com/user-profile/?tab=recipes");
 		if (pageDoesContainText("Bitters Sweet Barrel")) {
-			System.out.println("• Chrome save recipe - Successful");
+			System.out.println("• Chrome" + LOG_TEST_SAVERECIPE_PASS);
 		}
 		
 		goToLink("https://liquor.com/recipes/bitters-sweet-barrel/");
@@ -58,14 +58,14 @@ public class ChromeBrowser extends ChromeDriver {
 		}
 		
 		if (pageDoesContainClass("ldc-user-login")){
-			System.out.println("• Chrome logout - Successful");
+			System.out.println("• Chrome" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
 	
 	public void summarise() {
 		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
 		System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
-		System.out.println(arrayCount + "pages were loaded\n");
+		System.out.println(arrayCount + LOG_TEST_SUMMARY_PAGES);
 	}
 	
 	// Clicking functions

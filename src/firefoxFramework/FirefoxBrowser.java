@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class FirefoxBrowser extends FirefoxDriver {
+public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	int LOAD_WAIT_TIME = 100;
 	long startTime;
@@ -20,15 +20,15 @@ public class FirefoxBrowser extends FirefoxDriver {
 	    
 	    // Go through log in step 
 	    clickByClass("ldc-user-login");
-	    findElement(By.id("login_username")).sendKeys("ghost5"); 
-	    findElement(By.id("login_password")).sendKeys("ghostghost");
+	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_FF); 
+	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS_FF);
 	    
 	    startLoadTimer();
 	    clickByID("ldc-user-signin-button");
 	    logLoadTime();
 	    
 	    if (pageDoesContainClass("ldc-user-log-out")) {
-	    	System.out.println("• Firefox login - Successful");
+	    	System.out.println("• Firefox" + LOG_TEST_LOGIN_PASS);
 	    }
 	
 	}
@@ -40,7 +40,7 @@ public class FirefoxBrowser extends FirefoxDriver {
 		
 		goToLink("http://liquor.com/user-profile/?tab=recipes");
 		if (pageDoesContainText("Bitters Sweet Barrel")) {
-			System.out.println("• Firefox save recipe - Successful");
+			System.out.println("• Firefox" + LOG_TEST_SAVERECIPE_PASS);
 		}
 		
 		goToLink("https://liquor.com/recipes/bitters-sweet-barrel/");
@@ -57,14 +57,14 @@ public class FirefoxBrowser extends FirefoxDriver {
 		}
 		
 		if (pageDoesContainClass("ldc-user-login")){
-			System.out.println("• Firefox logout - Successful");
+			System.out.println("• Firefox" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
 	
 	public void summarise() {
 		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
 		System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
-		System.out.println(arrayCount + "pages were loaded\n");
+		System.out.println(arrayCount + LOG_TEST_SUMMARY_PAGES);
 	}
 	
 	// Clicking functions
