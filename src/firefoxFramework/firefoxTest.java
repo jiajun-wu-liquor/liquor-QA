@@ -1,11 +1,20 @@
-package testFramework;
+package firefoxFramework;
 
-public class main {
+public class firefoxTest {
 	
 	public static void main(String[] args) {
 	    
-		String CHROMEDRIVER_PATH = "C:////Users//david//workspace//LDC//addons//chromedriver.exe";
+		/*String CHROMEDRIVER_PATH = "C://Users//Jiajun//workspace//liquor-QA-chrome//addons//chromedriver.exe";
 		
+		System.out.println("Beginning functional test on chrome");
+		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
+	    ChromeBrowser chrome = new ChromeBrowser();
+	    chrome.loginTest();
+	    chrome.saveRecipeTest();
+	    chrome.logoutTest();
+	    chrome.quit();
+	    chrome.summarise();
+	    */
 		System.out.println("Beginning functional test on Firefox");
 	    FirefoxBrowser firefox = new FirefoxBrowser();
 	    firefox.loginTest();
@@ -13,16 +22,7 @@ public class main {
 	    firefox.logoutTest();
 	    firefox.quit();
 	    firefox.summarise();
-	    /*
-	    System.out.println("Beginning functional test on Chrome");
-	    System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
-	    ChromeBrowser chrome = new ChromeBrowser();
-	    chrome.loginTest();                      
-	    chrome.saveRecipeTest();
-	    chrome.logoutTest();
-	    chrome.quit();
-	    chrome.summarise();
-	    */
+	    
 	}
 	
 	/*
