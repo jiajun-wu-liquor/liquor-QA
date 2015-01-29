@@ -63,9 +63,9 @@ public class ChromeBrowser extends ChromeDriver {
 	}
 	
 	public void summarise() {
-		System.out.println("Homepage load time: " + calcHomepageLoadTime() + "milli sec");
-		System.out.println("Average load time: " + calcAvgLoadTime() + "milli sec");
-		System.out.println(arrayCount + "pages were loaded");
+		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
+		System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
+		System.out.println(arrayCount + "pages were loaded\n");
 	}
 	
 	// Clicking functions
