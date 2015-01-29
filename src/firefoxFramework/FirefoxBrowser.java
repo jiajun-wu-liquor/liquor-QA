@@ -34,7 +34,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	
 	public void saveRecipeTest() {
-		goToLink("http://liquor.com/recipes/bitters-sweet-barrel/");
+		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
 		clickByID("save-bookmark-button");
 		
@@ -43,7 +43,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 			System.out.println("• Firefox" + LOG_TEST_SAVERECIPE_PASS);
 		}
 		
-		goToLink("https://liquor.com/recipes/bitters-sweet-barrel/");
+		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		clickByID("bookmark-saved-button");
 	}
 	

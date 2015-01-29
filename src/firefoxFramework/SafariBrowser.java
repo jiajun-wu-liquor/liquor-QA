@@ -4,11 +4,11 @@ import java.lang.System;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
-public class ChromeBrowser extends ChromeDriver implements configConstants {
+public class SafariBrowser extends SafariDriver implements configConstants{
 	
-	int LOAD_WAIT_TIME = 1000;
+	int LOAD_WAIT_TIME = 100;
 	long startTime;
 	long[] loadTimes = new long[10];
 	int arrayCount = 0;
@@ -19,17 +19,16 @@ public class ChromeBrowser extends ChromeDriver implements configConstants {
 	    goToLink("http://liquor.com");
 	    
 	    // Go through log in step 
-	    waitOut();
 	    clickByClass("ldc-user-login");
-	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_CH); 
-	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS_CH);
+	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_SA); 
+	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS_SA);
 	    
 	    startLoadTimer();
 	    clickByID("ldc-user-signin-button");
 	    logLoadTime();
 	    
 	    if (pageDoesContainClass("ldc-user-log-out")) {
-	    	System.out.println("• Chrome" + LOG_TEST_LOGIN_PASS);
+	    	System.out.println("• Safari" + LOG_TEST_LOGIN_PASS);
 	    }
 	
 	}
@@ -41,7 +40,7 @@ public class ChromeBrowser extends ChromeDriver implements configConstants {
 		
 		goToLink("http://liquor.com/user-profile/?tab=recipes");
 		if (pageDoesContainText("Bitters Sweet Barrel")) {
-			System.out.println("• Chrome" + LOG_TEST_SAVERECIPE_PASS);
+			System.out.println("• Safari" + LOG_TEST_SAVERECIPE_PASS);
 		}
 		
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
@@ -58,7 +57,7 @@ public class ChromeBrowser extends ChromeDriver implements configConstants {
 		}
 		
 		if (pageDoesContainClass("ldc-user-login")){
-			System.out.println("• Chrome" + LOG_TEST_LOGOUT_PASS);
+			System.out.println("• Safari" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
 	
