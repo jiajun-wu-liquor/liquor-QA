@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
 
 public class SafariBrowser extends SafariDriver implements configConstants{
 	
@@ -13,6 +15,7 @@ public class SafariBrowser extends SafariDriver implements configConstants{
 	long[] loadTimes = new long[10];
 	int arrayCount = 0;
 	
+	@Test
 	public void loginTest() {
 		
 	    //Launch the Liquor.com Website
@@ -33,6 +36,7 @@ public class SafariBrowser extends SafariDriver implements configConstants{
 	
 	}
 	
+	@Test
 	public void saveRecipeTest() {
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
@@ -47,6 +51,7 @@ public class SafariBrowser extends SafariDriver implements configConstants{
 		clickByID("bookmark-saved-button");
 	}
 	
+	@Test
 	public void logoutTest() {
 		
 		try {
@@ -59,6 +64,11 @@ public class SafariBrowser extends SafariDriver implements configConstants{
 		if (pageDoesContainClass("ldc-user-login")){
 			System.out.println("• Safari" + LOG_TEST_LOGOUT_PASS);
 		}
+	}
+	
+	@AfterTest
+	public void tearDown() {
+		this.quit();
 	}
 	
 	public void summarise() {

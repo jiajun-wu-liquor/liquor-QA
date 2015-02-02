@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class ChromeBrowser extends ChromeDriver implements configConstants {
 	
@@ -60,6 +63,11 @@ public class ChromeBrowser extends ChromeDriver implements configConstants {
 		if (pageDoesContainClass("ldc-user-login")){
 			System.out.println("• Chrome" + LOG_TEST_LOGOUT_PASS);
 		}
+	}
+	
+	@AfterTest
+	public void tearDown() {
+		this.quit();
 	}
 	
 	public void summarise() {

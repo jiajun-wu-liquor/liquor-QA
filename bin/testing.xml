@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="LDC functional test">
+	<test name="Firefox test" preserve-order="true">
+		<classes>
+			<class name="firefoxFramework.FirefoxBrowser">
+				<methods>
+					<include name="loginTest" />
+					<include name="saveRecipeTest" />
+					<include name="logoutTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

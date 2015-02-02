@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
@@ -13,6 +16,12 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	long[] loadTimes = new long[10];
 	int arrayCount = 0;
 	
+	@BeforeTest
+	public void setUp() {
+		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
+	}
+	
+	@Test
 	public void loginTest() {
 		
 	    //Launch the Liquor.com Website
@@ -33,6 +42,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	}
 	
+	@Test
 	public void saveRecipeTest() {
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
@@ -47,6 +57,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		clickByID("bookmark-saved-button");
 	}
 	
+	@Test
 	public void logoutTest() {
 		
 		try {
@@ -60,6 +71,12 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 			System.out.println("• Firefox" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
+	
+	@AfterTest
+	public void tearDown() {
+		this.quit();
+	}
+	
 	
 	public void summarise() {
 		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
