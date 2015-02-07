@@ -1,6 +1,5 @@
 package firefoxFramework;
 
-import java.lang.System;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;

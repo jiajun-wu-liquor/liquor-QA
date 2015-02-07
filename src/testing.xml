@@ -10,6 +10,11 @@
 					<include name="logoutTest" />
 				</methods>
 			</class>
+			<class name="firefoxFramework.BAT_LDC_posts">
+				<methods>
+					<include name="BAT_LDC_all_posts" />
+				</methods>
+			</class>
 		</classes>
 	</test>
 </suite>
