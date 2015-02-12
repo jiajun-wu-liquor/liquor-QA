@@ -5,14 +5,7 @@
 		<classes>
 			<class name="firefoxFramework.FirefoxBrowser">
 				<methods>
-					<include name="loginTest" />
-					<include name="saveRecipeTest" />
-					<include name="logoutTest" />
-				</methods>
-			</class>
-			<class name="firefoxFramework.BAT_LDC_posts">
-				<methods>
-					<include name="BAT_LDC_all_posts" />
+					<include name="signupTest" />
 				</methods>
 			</class>
 		</classes>

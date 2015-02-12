@@ -4,7 +4,7 @@ public class firefoxTest implements configConstants {
 	
 	public static void main(String[] args) {
 	    
-		
+		/*
 		System.out.println(LOG_TEST_BROWSER_START + "Chrome...");
 		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
 	    ChromeBrowser chrome = new ChromeBrowser();
@@ -13,15 +13,19 @@ public class firefoxTest implements configConstants {
 	    chrome.logoutTest();
 	    chrome.quit();
 	    chrome.summarise();
-	    
+	    */
+		
 		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
 	    FirefoxBrowser firefox = new FirefoxBrowser();
-	    firefox.loginTest();
-	    firefox.saveRecipeTest();
-	    firefox.logoutTest();
-	    firefox.quit();
+	    firefox.setUp();
+	    //firefox.loginTest();
+	    //firefox.saveRecipeTest();
+	    //firefox.logoutTest();
+	    firefox.signupTest();
+	    firefox.tearDown();
 	    firefox.summarise();
 	    
+		/*
 	    System.out.println(LOG_TEST_BROWSER_START + "Safari...");
 	    SafariBrowser safari = new SafariBrowser();
 	    safari.loginTest();
@@ -29,6 +33,7 @@ public class firefoxTest implements configConstants {
 	    safari.logoutTest();
 	    safari.quit();
 	    safari.summarise();
+	    */
 	    
 	}
 	

@@ -1,10 +1,12 @@
 package firefoxFramework;
 
 import java.lang.System;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,14 +21,12 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	@BeforeTest
 	public void setUp() {
 		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
+		//Launch the Liquor.com Website
+	    goToLink("http://liquor.com");
 	}
-	
+	/*
 	@Test
 	public void loginTest() {
-		
-	    //Launch the Liquor.com Website
-	    goToLink("http://liquor.com");
-	    
 	    // Go through log in step 
 	    clickByClass("ldc-user-login");
 	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_FF); 
@@ -59,9 +59,9 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	@Test
 	public void logoutTest() {
+		startLoadTimer();
 		
-		try {
-			startLoadTimer();
+		try {	
 			clickByClass("ldc-user-log-out");
 		} catch (Exception e) {
 			System.out.println("There is no logout button on the current page.");
@@ -71,12 +71,69 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 			System.out.println("• Firefox" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
+	*/
+	@Test
+	public void signupTest() {
+		
+		try {
+			clickByClass("ldc-user-join");
+		} catch (Exception e) {
+			System.out.println("There is no Sign-up button on the current page.");
+			return;
+		}
+		
+		// Finish up first sign up page
+		generateNewSignIn(17);
+		
+		// Finish up second sign up page
+		clickByID("ldc-user-signup2-button");
+		
+		
+	}
 	
 	@AfterTest
 	public void tearDown() {
-		this.quit();
+		//this.quit();
 	}
 	
+	public void generateNewSignIn(int i) {
+		// TODO re-factor generator out
+		Random generator = new Random();
+		int randNo = generator.nextInt(100);
+		
+		findElement(By.id("signup_username")).clear(); 
+		findElement(By.id("signup_email")).clear(); 
+	    findElement(By.id("signup_password_1")).clear();
+	    findElement(By.id("signup_password_2")).clear();
+		
+		String username = "ghost" + randNo;
+		String email = username + "@liquor.com";
+		
+		findElement(By.id("signup_username")).sendKeys(username); 
+	    findElement(By.id("signup_email")).sendKeys(email);
+	    findElement(By.id("signup_password_1")).sendKeys(LOGIN_PASS);
+	    findElement(By.id("signup_password_2")).sendKeys(LOGIN_PASS);
+	    
+	    new Select(findElement(By.id("signup_birthdate_month"))).selectByValue("10");
+	    new Select(findElement(By.id("signup_birthdate_day"))).selectByValue("29");
+	    new Select(findElement(By.id("signup_birthdate_year"))).selectByValue("1991");
+	    
+	    
+	    if(!findElement(By.id("signup_age_tos")).isSelected()){
+	    	clickByID("signup_age_tos");
+	    }
+	    clickByID("ldc-user-signup-button");
+	    
+	    
+	   // WebElement e = findElement(By.id("ldc-user-signup-error"));
+	   // System.out.println(e.());
+	    /* Guard generated username is used before
+	    if (pageDoesContainID("ldc-user-signup-error")) {
+	    	generateNewSignIn(i+1);
+	    }
+	    */
+	    System.out.println("New user created: " + username);
+	}
 	
 	public void summarise() {
 		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
@@ -109,7 +166,9 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	public boolean pageDoesContainClass(String className) {
 		return this.findElements(By.className(className)).size() > 0;
 	}
-	
+	public boolean pageDoesContainID(String id) {
+		return this.findElements(By.id(id)).size() > 0;
+	}
 	
 	// Waiting function
 	public void waitOut() {
