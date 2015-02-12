@@ -2,7 +2,6 @@ package firefoxFramework;
 
 import java.lang.System;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,10 +12,12 @@ import org.testng.annotations.Test;
 
 public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
-	int LOAD_WAIT_TIME = 100;
+	int WAIT_TIME_LOAD_MILLISEC = 2500;
+	int WAIT_TIME_SIGNUP_MILLISEC = 2000;
 	long startTime;
 	long[] loadTimes = new long[10];
 	int arrayCount = 0;
+	Random generator = new Random();
 	
 	@BeforeTest
 	public void setUp() {
@@ -24,8 +25,8 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		//Launch the Liquor.com Website
 	    goToLink("http://liquor.com");
 	}
-	/*
-	@Test
+	
+	@Test(groups = {"saveRecipe"} )
 	public void loginTest() {
 	    // Go through log in step 
 	    clickByClass("ldc-user-login");
@@ -42,7 +43,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	}
 	
-	@Test
+	@Test(groups = {"saveRecipe"} )
 	public void saveRecipeTest() {
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
@@ -57,7 +58,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		clickByID("bookmark-saved-button");
 	}
 	
-	@Test
+	@Test(groups = {"saveRecipe"} )
 	public void logoutTest() {
 		startLoadTimer();
 		
@@ -71,8 +72,8 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 			System.out.println("• Firefox" + LOG_TEST_LOGOUT_PASS);
 		}
 	}
-	*/
-	@Test
+	
+	@Test(groups = {"signup"} )
 	public void signupTest() {
 		
 		try {
@@ -83,7 +84,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		}
 		
 		// Finish up first sign up page
-		generateNewSignIn(17);
+		generateNewSignIn();
 		
 		// Finish up second sign up page
 		clickByID("ldc-user-signup2-button");
@@ -93,21 +94,19 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	@AfterTest
 	public void tearDown() {
-		//this.quit();
+		this.quit();
 	}
 	
-	public void generateNewSignIn(int i) {
-		// TODO re-factor generator out
-		Random generator = new Random();
-		int randNo = generator.nextInt(100);
+	public void generateNewSignIn() {
+				
+		int randNo = generator.nextInt(1000);
+		String username = "ghost" + randNo;
+		String email = username + "@liquor.com";
 		
 		findElement(By.id("signup_username")).clear(); 
 		findElement(By.id("signup_email")).clear(); 
 	    findElement(By.id("signup_password_1")).clear();
 	    findElement(By.id("signup_password_2")).clear();
-		
-		String username = "ghost" + randNo;
-		String email = username + "@liquor.com";
 		
 		findElement(By.id("signup_username")).sendKeys(username); 
 	    findElement(By.id("signup_email")).sendKeys(email);
@@ -118,20 +117,17 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	    new Select(findElement(By.id("signup_birthdate_day"))).selectByValue("29");
 	    new Select(findElement(By.id("signup_birthdate_year"))).selectByValue("1991");
 	    
-	    
+	    // If "Above 21 year old" check-box is not checked
 	    if(!findElement(By.id("signup_age_tos")).isSelected()){
 	    	clickByID("signup_age_tos");
 	    }
 	    clickByID("ldc-user-signup-button");
 	    
-	    
-	   // WebElement e = findElement(By.id("ldc-user-signup-error"));
-	   // System.out.println(e.());
-	    /* Guard generated username is used before
+	    waitOut(2000);
 	    if (pageDoesContainID("ldc-user-signup-error")) {
-	    	generateNewSignIn(i+1);
+    		generateNewSignIn();
+    		return;
 	    }
-	    */
 	    System.out.println("New user created: " + username);
 	}
 	
@@ -172,8 +168,24 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	// Waiting function
 	public void waitOut() {
+		try	{
+	    	Thread.sleep(WAIT_TIME_LOAD_MILLISEC);
+	    } catch (Exception e) {
+	    }
+		
+		// TODO try this wait method
+		//WebDriverWait wait = new WebDriverWait(driver, 10);
+		//WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ID")));
+		// TODO try this wait method
 		// Put a Implicit wait, this means that any search for elements on the page could take the time the implicit wait is set for before throwing exception
-		this.manage().timeouts().implicitlyWait(LOAD_WAIT_TIME, TimeUnit.SECONDS);
+		//this.manage().timeouts().implicitlyWait(LOAD_WAIT_TIME, TimeUnit.SECONDS);
+	}
+	
+	public void waitOut(int customWaitTime) {
+		try	{
+	    	Thread.sleep(customWaitTime);
+	    } catch (Exception e) {
+	    }
 	}
 	
 	// Load page functions
