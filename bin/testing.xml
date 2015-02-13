@@ -5,9 +5,7 @@
 		<classes>
 			<class name="firefoxFramework.FirefoxBrowser">
 				<methods>
-					<include name="loginTest" />
 					<include name="saveRecipeTest" />
-					<include name="logoutTest" />
 				</methods>
 			</class>
 		</classes>
