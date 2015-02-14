@@ -18,12 +18,10 @@ public class firefoxTest implements configConstants {
 		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
 	    FirefoxBrowser firefox = new FirefoxBrowser();
 	    firefox.setUp();
-	    //firefox.loginTest();
+	    firefox.publishTest();
 	    //firefox.saveRecipeTest();
-	    //firefox.logoutTest();
-	    firefox.signupTest();
+	    //firefox.signupTest();
 	    firefox.tearDown();
-	    firefox.summarise();
 	    
 		/*
 	    System.out.println(LOG_TEST_BROWSER_START + "Safari...");

@@ -1,5 +1,6 @@
 package firefoxFramework;
 
+import static org.testng.AssertJUnit.assertEquals;
 import java.lang.System;
 import java.util.Random;
 
@@ -10,76 +11,107 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+/* Documentation
+ * Class consist of 3 sections
+ * - Class variables
+ * - Class public methods
+ * 	 These are the main methods we will call. Consist of 3 segments for TestNG.
+ * 	 > @Before/AfterTest: Executed before the other functions are called WHEN RUNNING FROM TESTNG ONLY.
+ * 		• setUp()
+ * 		• tearDown()
+ * 	 > @Test: The functions called by TestNG. Also the main functional tests.
+ * 		• saveRecipeTest()
+ * 		• signupTest()
+ * 	 > Other @Tests: public functions to be tested but not called, because they are called in other testing functions anyway.
+ * 		• loginTest()
+ * 		• logoutTest()
+ * - Class private methods
+ */
+
 public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	int WAIT_TIME_LOAD_MILLISEC = 2500;
 	int WAIT_TIME_SIGNUP_MILLISEC = 2000;
-	long startTime;
-	long[] loadTimes = new long[10];
-	int arrayCount = 0;
+	
 	Random generator = new Random();
+	String[] summaryLog = new String[20];
+	long[] loadTimes = new long[10];
+	int summaryCount = 1;
+	int loadTimeCount = 0;
+	long startTime;
 	
-	@BeforeTest
-	public void setUp() {
-		System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
-		//Launch the Liquor.com Website
-	    goToLink("http://liquor.com");
-	}
+	public enum TestType { NONE, SAVE_RECIPE, PUBLISH }
 	
-	@Test(groups = {"saveRecipe"} )
-	public void loginTest() {
-	    // Go through log in step 
-	    clickByClass("ldc-user-login");
-	    findElement(By.id("login_username")).sendKeys(LOGIN_USER_FF); 
-	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS_FF);
-	    
-	    startLoadTimer();
-	    clickByID("ldc-user-signin-button");
-	    logLoadTime();
-	    
-	    if (pageDoesContainClass("ldc-user-log-out")) {
-	    	System.out.println("• Firefox" + LOG_TEST_LOGIN_PASS);
-	    }
-	
+	@Test(groups = {"publish"} )
+	public void publishTest() {
+		summaryLog[0] = "Publish Test";
+		loginTest(TestType.PUBLISH);
+		
+		goToLink(generateEditPageLink(PostType.ARTICLE));
+		
+		String[] expected = new String[20];
+		expected[0] = getFieldAttributeById("value", "title");
+		expected[1] = getFieldAttributeById("innerHTML", "content");
+		expected[2] = getFieldAttributeByClass("src", "attachment-266x266");
+		
+		clickByID("publish"); 
+		summaryLog("• Article is published.");
+		clickByLinkText("View post");
+		
+		String[] actual = new String[20];
+		actual[0] = getFieldAttributeByClass("innerHTML", "entry-title");
+		actual[1] = getFieldAttributeByClass("innerHTML", "attachment-article-single-caption");
+		actual[2] = getFieldAttributeByClass("src", "wp-post-image");
+		
+		System.out.println(actual[2]);
+		
+		for(int i = 0; i < 3; i++) {
+			//assertEquals(actual[0], expected[0]);
+		}
+		
+		goToLink(generateEditPageLink(PostType.ARTICLE));
+		clickByClass("edit-post-status");
+		new Select(findElement(By.id("post_status"))).selectByValue("draft");
+		clickByID("publish");
 	}
 	
 	@Test(groups = {"saveRecipe"} )
 	public void saveRecipeTest() {
+		
+		summaryLog[0] = "Save Recipe Test";
+		
+		loginTest(TestType.SAVE_RECIPE);
+		
+		// Save recipe
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
-		clickByID("save-bookmark-button");
+		if (pageDoesContainID("save-bookmark-button")) {
+			clickByID("save-bookmark-button");
+		} else {
+			summaryLog("Warning: The recipe was not un-saved previously!");
+		}
 		
 		goToLink("http://liquor.com/user-profile/?tab=recipes");
 		if (pageDoesContainText("Bitters Sweet Barrel")) {
-			System.out.println("• Firefox" + LOG_TEST_SAVERECIPE_PASS);
+			summaryLog(  LOG_TEST_SAVERECIPE_PASS );
 		}
 		
+		// Return to page and un-save recipe
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		clickByID("bookmark-saved-button");
-	}
-	
-	@Test(groups = {"saveRecipe"} )
-	public void logoutTest() {
-		startLoadTimer();
 		
-		try {	
-			clickByClass("ldc-user-log-out");
-		} catch (Exception e) {
-			System.out.println("There is no logout button on the current page.");
-		}
-		
-		if (pageDoesContainClass("ldc-user-login")){
-			System.out.println("• Firefox" + LOG_TEST_LOGOUT_PASS);
-		}
+		logoutTest();
 	}
 	
 	@Test(groups = {"signup"} )
 	public void signupTest() {
 		
+		summaryLog[0] = "Sign up Test";
+		
 		try {
 			clickByClass("ldc-user-join");
 		} catch (Exception e) {
-			System.out.println("There is no Sign-up button on the current page.");
+			summaryLog("Error: There is no Sign-up button on the current (home) page. Test terminated.");
 			return;
 		}
 		
@@ -89,15 +121,68 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		// Finish up second sign up page
 		clickByID("ldc-user-signup2-button");
 		
-		
+		summaryLog( LOG_TEST_SIGNUP_PASS );
 	}
 	
+	public void loginTest(TestType testType) {
+		
+		String username;
+		
+		switch (testType) {
+			case SAVE_RECIPE:
+				username = LOGIN_USER_SAVERECIPE;
+				break;
+			case PUBLISH:
+				username = LOGIN_USER_PUBLISH;
+				break;
+			default:
+				username = LOGIN_USER_GENERAL;
+		}
+		
+	    clickByClass("ldc-user-login");
+	    
+	    // Fill in log in fields
+	    findElement(By.id("login_username")).sendKeys(username); 
+	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS);
+	    
+	    clickByID("ldc-user-signin-button");
+	    
+	    if (pageDoesContainClass("ldc-user-log-out")) {
+	    	summaryLog( LOG_TEST_LOGIN_PASS);
+	    }
+	
+	}
+	public void loginTest() {
+		loginTest(TestType.NONE);
+	}
+	
+	public void logoutTest() {
+		
+		try {	
+			clickByClass("ldc-user-log-out");
+			if (pageDoesContainClass("ldc-user-login")){
+				summaryLog(  LOG_TEST_LOGOUT_PASS );
+			}
+		} catch (Exception e) {
+			summaryLog( "Logout - There is no logout button on the current page.");
+		}
+	}
+	
+	@BeforeTest
+	public void setUp() {
+		//System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
+		
+		// Launch the Liquor.com Website
+	    goToLink(TEST_HOMEPAGE);
+	}
 	@AfterTest
 	public void tearDown() {
+		this.summarise();
 		this.quit();
 	}
 	
-	public void generateNewSignIn() {
+	// Generates a new username and attempts to sign-up. If username is taken, will generate another username
+	private void generateNewSignIn() {
 				
 		int randNo = generator.nextInt(1000);
 		String username = "ghost" + randNo;
@@ -131,43 +216,81 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	    System.out.println("New user created: " + username);
 	}
 	
-	public void summarise() {
-		System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
-		System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
-		System.out.println(arrayCount + LOG_TEST_SUMMARY_PAGES);
+	// Generate post URL. Temporary implementation while figuring out arrays in Interface.
+	private String generateEditPageLink(PostType type) {
+		int[] postIDs;
+		
+		if(TEST_DOMAIN == "stg.") {
+			postIDs = stgPostID;
+		} else if (TEST_DOMAIN == "dev.") {
+			postIDs = devPostID;
+		} else {
+			postIDs = ldcPostID;
+		}
+
+		return TEST_PUBLISH_POSTURL_1 + postIDs[type.ordinal()] + TEST_PUBLISH_POSTURL_2;
+	}
+	
+	
+	// Summarizes the test details. Prints out all test pass/fail messages. 
+	// Console messages should be stored in summaryLog[] array and print out here instead of sysout direct in main codes.
+	private void summarise() {
+		for(int i = 0; i < summaryCount; i++) {
+			System.out.println(summaryLog[i]);
+		}
+		
+		// Load time 
+		//System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
+		//System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
+		//System.out.println(loadTimeCount + LOG_TEST_SUMMARY_PAGES);
+	}
+	private void summaryLog(String logMsg) {
+		this.summaryLog[this.summaryCount] = logMsg;
+		this.summaryCount++;
 	}
 	
 	// Clicking functions
-	public void clickByID(String id) {
+	// Re-factored to simplify code reading in main functions
+	private void clickByID(String id) {
 		this.findElement(By.id(id)).click();
 		this.waitOut();	
 	}
-	public void clickByClass(String className) {
+	private void clickByClass(String className) {
 		this.findElement(By.className(className)).click();
 		this.waitOut();	
 	}
-	public void clickByHref(String href) {
+	private void clickByLinkText(String text) {
+		this.findElement(By.partialLinkText(text)).click();
+	}
+	private void clickByHref(String href) {
+			    
+	    this.findElement(By.cssSelector("a[href*='"+ href + "']")).click();
+	    this.waitOut();
+	    
+		// Try with Xpath
 		//String xpath = String.format(".//a[contains(@href, '%s')]", href);
 	    //this.findElements(By.xpath(xpath)).get(0).click();
-	    
-	    this.findElement(By.cssSelector("a[href*='href']")).click();
-	    this.waitOut();
 	}
-	
 	
 	// Checking functions
-	public boolean pageDoesContainText(String text) {
+	private boolean pageDoesContainText(String text) {
 		return this.getPageSource().contains(text);
 	}
-	public boolean pageDoesContainClass(String className) {
+	private boolean pageDoesContainClass(String className) {
 		return this.findElements(By.className(className)).size() > 0;
 	}
-	public boolean pageDoesContainID(String id) {
+	private boolean pageDoesContainID(String id) {
 		return this.findElements(By.id(id)).size() > 0;
+	}
+	private String getFieldAttributeById(String attribute, String id) {
+		return this.findElement(By.id(id)).getAttribute(attribute);
+	}
+	private String getFieldAttributeByClass(String attribute, String className) {
+		return this.findElement(By.className(className)).getAttribute(attribute);
 	}
 	
 	// Waiting function
-	public void waitOut() {
+	private void waitOut() {
 		try	{
 	    	Thread.sleep(WAIT_TIME_LOAD_MILLISEC);
 	    } catch (Exception e) {
@@ -181,39 +304,41 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		//this.manage().timeouts().implicitlyWait(LOAD_WAIT_TIME, TimeUnit.SECONDS);
 	}
 	
-	public void waitOut(int customWaitTime) {
+	private void waitOut(int customWaitTime) {
 		try	{
 	    	Thread.sleep(customWaitTime);
 	    } catch (Exception e) {
 	    }
 	}
 	
-	// Load page functions
-	public void startLoadTimer() {
+	// Page loading time functions
+	// Starts the timer. Called before executing other codes that are to be time logged.
+	private void startLoadTimer() {
 		startTime = System.currentTimeMillis();
 	}
-	public void logLoadTime() {
+	// Calculates time of previous code execute and logs it. Has to call startLoadTimer() before it.
+	private void logLoadTime() {
 		long currentTime = System.currentTimeMillis();
-		this.loadTimes[this.arrayCount] = currentTime - this.startTime;
-		this.arrayCount++;
+		this.loadTimes[this.loadTimeCount] = currentTime - this.startTime;
+		this.loadTimeCount++;
 	}
-	public long calcHomepageLoadTime() {
+	private long calcHomepageLoadTime() {
 		return this.loadTimes[0];
 	}
-	public long calcAvgLoadTime() {
+	private long calcAvgLoadTime() {
 		long sum = 0;
 		int count = 0;
-		while (count <= this.arrayCount) {
+		while (count <= this.loadTimeCount) {
 			sum = sum + this.loadTimes[count];
 			count++;
 		}
-		return sum/this.arrayCount;
+		return sum/this.loadTimeCount;
 	}
 	
 	// Navigating functions
-	public void goToLink(String url) {
-		this.startLoadTimer();
+	private void goToLink(String url) {
+		//this.startLoadTimer();
 		this.get(url);
-		this.logLoadTime();
+		//this.logLoadTime();
 	}
 }
