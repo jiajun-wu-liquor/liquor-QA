@@ -3,7 +3,7 @@
 <suite name="LDC functional test" allow-return-value="true" verbose="1" parallel="tests" thread-count="3">
 	<test name="saveRecipe" preserve-order="true" thread-count="3">
 		<classes>
-			<class name="firefoxFramework.FirefoxBrowser">
+			<class name="firefoxFramework.SaveRecipeTest">
 				<methods>
 					<include name="saveRecipeTest" />
 				</methods>

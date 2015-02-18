@@ -44,41 +44,6 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	public enum TestType { NONE, SAVE_RECIPE, PUBLISH }
 	
-	@Test(groups = {"saveRecipe"} )
-	public void saveRecipeTest() {
-		
-		//this.setWindowNo(1);
-		goToLink(TEST_HOMEPAGE);
-		
-		summaryLog[0] = "Save Recipe Test";
-		
-		loginTest(TestType.SAVE_RECIPE);
-		
-		// Save recipe
-		goToLink(TEST_SAVERECIPE_RECIPEURL);
-		
-		waitOut();
-		
-		if (findElement(By.id("save-bookmark-button")).getAttribute("style").contains("display: none;")) {
-			summaryLog("• Warning: The recipe was not un-saved previously!");
-		} else {
-			clickByID("save-bookmark-button");
-		}
-		
-		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
-		if (pageDoesContainText("Scotch &amp; Soda")) {
-			summaryLog[0] = summaryLog[0] + " (Success)";
-		} else {
-			summaryLog[0] = summaryLog[0] + " (Unsuccessful)";
-		}
-		
-		// Return to page and un-save recipe
-		goToLink(TEST_SAVERECIPE_RECIPEURL);
-		clickByID("bookmark-saved-button");
-		
-		logoutTest();
-	}
-	
 	@Test(groups = {"signup"} )
 	public void signupTest() {
 		//this.setWindowNo(0);
