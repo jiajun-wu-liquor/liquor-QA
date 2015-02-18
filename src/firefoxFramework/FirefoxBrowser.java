@@ -78,7 +78,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 			assertEquals(actual[i], expected[i]);
 		}
 		summaryLog("• All content assertions are correct");
-		
+		summaryLog[0] = summaryLog[0] + " (Success)";
 		
 		goToLink(generateEditPageLink(PostType.ARTICLE));
 		clickByClass("edit-post-status");
@@ -105,16 +105,14 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		if (findElement(By.id("save-bookmark-button")).getAttribute("style").contains("display: none;")) {
 			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
-			summaryLog("clicking save");
 			clickByID("save-bookmark-button");
-			summaryLog("clicked save");
 		}
 		
 		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
 		if (pageDoesContainText("Scotch &amp; Soda")) {
-			summaryLog(  LOG_TEST_SAVERECIPE_PASS );
+			summaryLog[0] = summaryLog[0] + " (Success)";
 		} else {
-			summaryLog ("• Save recipe - Unsuccessful");
+			summaryLog[0] = summaryLog[0] + " (Unsuccessful)";
 		}
 		
 		// Return to page and un-save recipe
@@ -144,7 +142,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		// Finish up second sign up page
 		clickByID("ldc-user-signup2-button");
 		
-		summaryLog( LOG_TEST_SIGNUP_PASS );
+		summaryLog[0] = summaryLog[0] + " (Success)";
 	}
 	
 	public void loginTest(TestType testType) {

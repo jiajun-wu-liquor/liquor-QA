@@ -43,9 +43,7 @@ public interface Constants {
 	public String LOG_TEST_BROWSER_START = "Beginning functional test on ";
 	
 	public String LOG_TEST_LOGIN_PASS = "• Login - Successful";
-	public String LOG_TEST_SAVERECIPE_PASS = "• Save recipe - Successful";
 	public String LOG_TEST_LOGOUT_PASS =  "• Logout - Successful";
-	public String LOG_TEST_SIGNUP_PASS = "• Signup - Successful";
 	
 	public String LOG_TEST_SUMMARY_PAGES = " pages were loaded\n";
 }
