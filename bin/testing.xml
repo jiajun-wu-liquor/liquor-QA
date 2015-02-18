@@ -23,7 +23,7 @@
 	
 	<test name="publishArticle" parallel="classes" thread-count="3">
 		<classes>
-			<class name="firefoxFramework.FirefoxBrowser">
+			<class name="firefoxFramework.PublishTest">
 				<methods>
 					<include name="publishTest" />
 				</methods>

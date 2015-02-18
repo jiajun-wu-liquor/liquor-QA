@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
  * 	 > Other @Tests: public functions to be tested but not called, because they are called in other testing functions anyway.
  * 		• loginTest()
  * 		• logoutTest()
- * - Class private methods
+ * - Class protected methods
  */
 
 public class FirefoxBrowser extends FirefoxDriver implements configConstants{
@@ -43,49 +43,6 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	long startTime;
 	
 	public enum TestType { NONE, SAVE_RECIPE, PUBLISH }
-	
-	@Test(groups = {"publish"} )
-	public void publishTest() {
-		//this.setWindowNo(2);
-		goToLink(TEST_HOMEPAGE);
-		
-		summaryLog[0] = "Publish Test";
-		loginTest(TestType.PUBLISH);
-		
-		goToLink(generateEditPageLink(PostType.ARTICLE));
-		
-		String[] expected = new String[20];
-		expected[0] = getFieldAttributeById("value", "title");
-		expected[1] = getFieldAttributeById("innerHTML", "content");
-		expected[2] = getFieldAttributeByClass("src", "attachment-266x266");
-		
-		expected[0].replace('-', '–');
-		expected[1] = expected[1].replaceAll("&lt;p&gt;", "").replaceAll("&lt;/p&gt;\n", "");
-		expected[2] = expected[2].replaceAll("300x93", "");
-		
-		clickByID("publish"); 
-		summaryLog("• Article is published.");
-		clickByLinkText("View post");
-		
-		String[] actual = new String[20];
-		actual[0] = getFieldAttributeByClass("innerHTML", "entry-title");
-		actual[1] = getFieldAttributeByXpath("innerHTML", "//div[@class='entry-content']/p");
-		actual[2] = getFieldAttributeByClass("src", "wp-post-image");
-		
-		actual[2] = actual[2].replaceAll("290x155", "");
-		
-		for(int i = 0; i < 3; i++) {
-			assertEquals(actual[i], expected[i]);
-		}
-		summaryLog("• All content assertions are correct");
-		summaryLog[0] = summaryLog[0] + " (Success)";
-		
-		goToLink(generateEditPageLink(PostType.ARTICLE));
-		clickByClass("edit-post-status");
-		new Select(findElement(By.id("post_status"))).selectByValue("draft");
-		clickByID("publish");
-		summaryLog("• Article is drafted");
-	}
 	
 	@Test(groups = {"saveRecipe"} )
 	public void saveRecipeTest() {
@@ -145,7 +102,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		summaryLog[0] = summaryLog[0] + " (Success)";
 	}
 	
-	public void loginTest(TestType testType) {
+	public boolean loginTest(TestType testType) {
 		
 		String username;
 		
@@ -170,7 +127,9 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	    
 	    if (pageDoesContainClass("ldc-user-log-out")) {
 	    	summaryLog( LOG_TEST_LOGIN_PASS);
+	    	return true;
 	    }
+	    return false;
 	
 	}
 	public void loginTest() {
@@ -203,7 +162,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	
 	// Generates a new username and attempts to sign-up. If username is taken, will generate another username
-	private void generateNewSignIn() {
+	protected void generateNewSignIn() {
 				
 		int randNo = generator.nextInt(1000);
 		String username = "ghost" + randNo;
@@ -244,31 +203,13 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		int windowHeight = (int)(screenSize.getHeight()/3);
 		Dimension windowSize = new Dimension(windowWidth, windowHeight);
 		
-		summaryLog(i + " reached here");
-		
 		this.manage().window().setSize(windowSize);
 		this.manage().window().setPosition(new Point(windowWidth*(i%3),windowHeight*(i/3)));
 	}
 	
-	// Generate post URL. Temporary implementation while figuring out arrays in Interface.
-	private String generateEditPageLink(PostType type) {
-		int[] postIDs;
-
-		if(TEST_DOMAIN == "stg.") {
-			postIDs = stgPostID;
-		} else if (TEST_DOMAIN == "dev.") {
-			postIDs = devPostID;
-		} else {
-			postIDs = ldcPostID;
-		}
-
-		return TEST_PUBLISH_POSTURL_1 + postIDs[type.ordinal()] + TEST_PUBLISH_POSTURL_2;
-	}
-	
-	
 	// Summarizes the test details. Prints out all test pass/fail messages. 
 	// Console messages should be stored in summaryLog[] array and print out here instead of sysout direct in main codes.
-	private void summarise() {
+	protected void summarise() {
 		for(int i = 0; i < summaryCount; i++) {
 			System.out.println(summaryLog[i]);
 		}
@@ -278,25 +219,25 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		//System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
 		//System.out.println(loadTimeCount + LOG_TEST_SUMMARY_PAGES);
 	}
-	private void summaryLog(String logMsg) {
+	protected void summaryLog(String logMsg) {
 		this.summaryLog[this.summaryCount] = logMsg;
 		this.summaryCount++;
 	}
 	
 	// Clicking functions
 	// Re-factored to simplify code reading in main functions
-	private void clickByID(String id) {
+	protected void clickByID(String id) {
 		this.findElement(By.id(id)).click();
 		this.waitOut();	
 	}
-	private void clickByClass(String className) {
+	protected void clickByClass(String className) {
 		this.findElement(By.className(className)).click();
 		this.waitOut();	
 	}
-	private void clickByLinkText(String text) {
+	protected void clickByLinkText(String text) {
 		this.findElement(By.partialLinkText(text)).click();
 	}
-	private void clickByHref(String href) {
+	protected void clickByHref(String href) {
 			    
 	    this.findElement(By.cssSelector("a[href*='"+ href + "']")).click();
 	    this.waitOut();
@@ -307,19 +248,19 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	
 	// Checking functions
-	private boolean pageDoesContainText(String text) {
+	protected boolean pageDoesContainText(String text) {
 		return this.getPageSource().contains(text);
 	}
-	private boolean pageDoesContainClass(String className) {
+	protected boolean pageDoesContainClass(String className) {
 		return this.findElements(By.className(className)).size() > 0;
 	}
-	private boolean pageDoesContainID(String id) {
+	protected boolean pageDoesContainID(String id) {
 		return this.findElements(By.id(id)).size() > 0;
 	}
-	private String getFieldAttributeById(String attribute, String id) {
+	protected String getFieldAttributeById(String attribute, String id) {
 		return this.findElement(By.id(id)).getAttribute(attribute);
 	}
-	private String getFieldAttributeByClass(String attribute, String className) {
+	protected String getFieldAttributeByClass(String attribute, String className) {
 		return this.findElement(By.className(className)).getAttribute(attribute);
 	}
 	protected String getFieldAttributeByXpath(String attribute, String xpath) {
@@ -327,7 +268,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	
 	// Waiting function
-	private void waitOut() {
+	protected void waitOut() {
 		try	{
 	    	Thread.sleep(WAIT_TIME_LOAD_MILLISEC);
 	    } catch (Exception e) {
@@ -341,7 +282,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		//this.manage().timeouts().implicitlyWait(LOAD_WAIT_TIME, TimeUnit.SECONDS);
 	}
 	
-	private void waitOut(int customWaitTime) {
+	protected void waitOut(int customWaitTime) {
 		try	{
 	    	Thread.sleep(customWaitTime);
 	    } catch (Exception e) {
@@ -350,19 +291,19 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	// Page loading time functions
 	// Starts the timer. Called before executing other codes that are to be time logged.
-	private void startLoadTimer() {
+	protected void startLoadTimer() {
 		startTime = System.currentTimeMillis();
 	}
 	// Calculates time of previous code execute and logs it. Has to call startLoadTimer() before it.
-	private void logLoadTime() {
+	protected void logLoadTime() {
 		long currentTime = System.currentTimeMillis();
 		this.loadTimes[this.loadTimeCount] = currentTime - this.startTime;
 		this.loadTimeCount++;
 	}
-	private long calcHomepageLoadTime() {
+	protected long calcHomepageLoadTime() {
 		return this.loadTimes[0];
 	}
-	private long calcAvgLoadTime() {
+	protected long calcAvgLoadTime() {
 		long sum = 0;
 		int count = 0;
 		while (count <= this.loadTimeCount) {
@@ -373,7 +314,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	
 	// Navigating functions
-	private void goToLink(String url) {
+	protected void goToLink(String url) {
 		//this.startLoadTimer();
 		this.get(url);
 		//this.logLoadTime();
