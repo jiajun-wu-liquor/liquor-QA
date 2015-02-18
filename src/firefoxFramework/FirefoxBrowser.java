@@ -47,12 +47,16 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		summaryLog[0] = "Publish Test";
 		loginTest(TestType.PUBLISH);
 		
-		goToLink(generateEditPageLink(PostType.ARTICLE));
+goToLink(generateEditPageLink(PostType.ARTICLE));
 		
 		String[] expected = new String[20];
 		expected[0] = getFieldAttributeById("value", "title");
 		expected[1] = getFieldAttributeById("innerHTML", "content");
 		expected[2] = getFieldAttributeByClass("src", "attachment-266x266");
+		
+		expected[0].replace('-', '–');
+		expected[1] = expected[1].replaceAll("&lt;p&gt;", "").replaceAll("&lt;/p&gt;\n", "");
+		expected[2] = expected[2].replaceAll("300x93", "");
 		
 		clickByID("publish"); 
 		summaryLog("• Article is published.");
@@ -60,19 +64,22 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		
 		String[] actual = new String[20];
 		actual[0] = getFieldAttributeByClass("innerHTML", "entry-title");
-		actual[1] = getFieldAttributeByClass("innerHTML", "attachment-article-single-caption");
+		actual[1] = getFieldAttributeByXpath("innerHTML", "//div[@class='entry-content']/p");
 		actual[2] = getFieldAttributeByClass("src", "wp-post-image");
 		
-		System.out.println(actual[2]);
+		actual[2] = actual[2].replaceAll("290x155", "");
 		
 		for(int i = 0; i < 3; i++) {
-			//assertEquals(actual[0], expected[0]);
+			assertEquals(actual[i], expected[i]);
 		}
+		summaryLog("• All content assertions are correct");
+		
 		
 		goToLink(generateEditPageLink(PostType.ARTICLE));
 		clickByClass("edit-post-status");
 		new Select(findElement(By.id("post_status"))).selectByValue("draft");
 		clickByID("publish");
+		summaryLog("• Article is drafted")
 	}
 	
 	@Test(groups = {"saveRecipe"} )
@@ -85,15 +92,18 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		// Save recipe
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		waitOut();
-		if (pageDoesContainID("save-bookmark-button")) {
-			clickByID("save-bookmark-button");
+		
+		if (findElement(By.id("save-bookmark-button")).getAttribute("style") == "display: none;") {
+			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
-			summaryLog("Warning: The recipe was not un-saved previously!");
+			clickByID("save-bookmark-button");
 		}
 		
-		goToLink("http://liquor.com/user-profile/?tab=recipes");
-		if (pageDoesContainText("Bitters Sweet Barrel")) {
+		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
+		if (pageDoesContainText("Scotch &amp; Soda")) {
 			summaryLog(  LOG_TEST_SAVERECIPE_PASS );
+		} else {
+			summaryLog ("• Save recipe - Unsuccessful");
 		}
 		
 		// Return to page and un-save recipe
@@ -213,7 +223,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
     		generateNewSignIn();
     		return;
 	    }
-	    System.out.println("New user created: " + username);
+	    summaryLog("• New user created: " + username);
 	}
 	
 	// Generate post URL. Temporary implementation while figuring out arrays in Interface.
@@ -287,6 +297,9 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	}
 	private String getFieldAttributeByClass(String attribute, String className) {
 		return this.findElement(By.className(className)).getAttribute(attribute);
+	}
+	protected String getFieldAttributeByXpath(String attribute, String xpath) {
+		return this.findElement(By.xpath(xpath)).getAttribute(attribute);
 	}
 	
 	// Waiting function

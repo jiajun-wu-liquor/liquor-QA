@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<suite name="LDC functional test">
-	<test name="Firefox test" preserve-order="true">
+<suite name="LDC functional test" allow-return-value="true" verbose="1" parallel="tests" thread-count="3">
+	<test name="saveRecipe" preserve-order="true" thread-count="3">
+		<classes>
+			<class name="firefoxFramework.FirefoxBrowser">
+				<methods>
+					<include name="saveRecipeTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	
+	<test name="signUp" parallel="classes" thread-count="3">
 		<classes>
 			<class name="firefoxFramework.FirefoxBrowser">
 				<methods>
 					<include name="signupTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	
+	<test name="publishArticle" parallel="classes" thread-count="3">
+		<classes>
+			<class name="firefoxFramework.FirefoxBrowser">
+				<methods>
+					<include name="publishTest" />
 				</methods>
 			</class>
 		</classes>
