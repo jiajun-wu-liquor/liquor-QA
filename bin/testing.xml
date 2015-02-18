@@ -13,7 +13,7 @@
 	
 	<test name="signUp" parallel="classes" thread-count="3">
 		<classes>
-			<class name="firefoxFramework.FirefoxBrowser">
+			<class name="firefoxFramework.SignupTest">
 				<methods>
 					<include name="signupTest" />
 				</methods>
