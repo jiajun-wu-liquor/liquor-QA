@@ -1,6 +1,8 @@
 package firefoxFramework;
 
 import static org.testng.AssertJUnit.assertEquals;
+
+import java.awt.Toolkit;
 import java.lang.System;
 import java.util.Random;
 
@@ -44,10 +46,13 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	@Test(groups = {"publish"} )
 	public void publishTest() {
+		//this.setWindowNo(2);
+		goToLink(TEST_HOMEPAGE);
+		
 		summaryLog[0] = "Publish Test";
 		loginTest(TestType.PUBLISH);
 		
-goToLink(generateEditPageLink(PostType.ARTICLE));
+		goToLink(generateEditPageLink(PostType.ARTICLE));
 		
 		String[] expected = new String[20];
 		expected[0] = getFieldAttributeById("value", "title");
@@ -79,11 +84,14 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 		clickByClass("edit-post-status");
 		new Select(findElement(By.id("post_status"))).selectByValue("draft");
 		clickByID("publish");
-		summaryLog("• Article is drafted")
+		summaryLog("• Article is drafted");
 	}
 	
 	@Test(groups = {"saveRecipe"} )
 	public void saveRecipeTest() {
+		
+		//this.setWindowNo(1);
+		goToLink(TEST_HOMEPAGE);
 		
 		summaryLog[0] = "Save Recipe Test";
 		
@@ -91,12 +99,15 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 		
 		// Save recipe
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
+		
 		waitOut();
 		
-		if (findElement(By.id("save-bookmark-button")).getAttribute("style") == "display: none;") {
+		if (findElement(By.id("save-bookmark-button")).getAttribute("style").contains("display: none;")) {
 			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
+			summaryLog("clicking save");
 			clickByID("save-bookmark-button");
+			summaryLog("clicked save");
 		}
 		
 		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
@@ -115,6 +126,8 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 	
 	@Test(groups = {"signup"} )
 	public void signupTest() {
+		//this.setWindowNo(0);
+		goToLink(TEST_HOMEPAGE);
 		
 		summaryLog[0] = "Sign up Test";
 		
@@ -183,7 +196,7 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 		//System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
 		
 		// Launch the Liquor.com Website
-	    goToLink(TEST_HOMEPAGE);
+	    //goToLink(TEST_HOMEPAGE);
 	}
 	@AfterTest
 	public void tearDown() {
@@ -226,10 +239,23 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 	    summaryLog("• New user created: " + username);
 	}
 	
+	// Set windowPosition
+	public void setWindowNo(int i) {
+		java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int windowWidth = (int)(screenSize.getWidth()/3/1.3);
+		int windowHeight = (int)(screenSize.getHeight()/3);
+		Dimension windowSize = new Dimension(windowWidth, windowHeight);
+		
+		summaryLog(i + " reached here");
+		
+		this.manage().window().setSize(windowSize);
+		this.manage().window().setPosition(new Point(windowWidth*(i%3),windowHeight*(i/3)));
+	}
+	
 	// Generate post URL. Temporary implementation while figuring out arrays in Interface.
 	private String generateEditPageLink(PostType type) {
 		int[] postIDs;
-		
+
 		if(TEST_DOMAIN == "stg.") {
 			postIDs = stgPostID;
 		} else if (TEST_DOMAIN == "dev.") {
@@ -248,7 +274,7 @@ goToLink(generateEditPageLink(PostType.ARTICLE));
 		for(int i = 0; i < summaryCount; i++) {
 			System.out.println(summaryLog[i]);
 		}
-		
+		System.out.println("");
 		// Load time 
 		//System.out.println("Homepage load time: " + calcHomepageLoadTime() + " milli sec");
 		//System.out.println("Average load time: " + calcAvgLoadTime() + " milli sec");
