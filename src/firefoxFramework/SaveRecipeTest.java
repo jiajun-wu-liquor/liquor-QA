@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.Test;
 
-public class SaveRecipeTest extends FirefoxBrowser implements Constants {
+public class SaveRecipeTest extends FunctionalTest implements Constants {
 	public SaveRecipeTest(FirefoxProfile profile) {
 		super(profile);
 	}
@@ -30,6 +30,7 @@ public class SaveRecipeTest extends FirefoxBrowser implements Constants {
 		
 		waitOut();
 		
+		
 		if (findElement(By.xpath(getSelectorName("save_recipe_button"))).getAttribute("style").contains("display: none;")) {
 			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
@@ -48,7 +49,7 @@ public class SaveRecipeTest extends FirefoxBrowser implements Constants {
 		try {
 			clickByXpath(getSelectorName("unsave_recipe_button"));
 		} catch (Exception e) {
-			summaryLog("• Could not un-save bookmark. Check that no one else logged in to the same account and un-toggled the saved recipe.");
-		}
+			summaryLog("• Could not un-save bookmark. Check that no one else logged in to the same account and un-toggled the saved recipe. Else see Exception error message below: ");
+			summaryLog(e.getMessage());		}
 	}
 }

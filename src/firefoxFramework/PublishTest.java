@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class PublishTest extends FirefoxBrowser implements Constants {
+public class PublishTest extends FunctionalTest implements Constants {
 	
 	public PublishTest(FirefoxProfile profile){
 		super(profile);

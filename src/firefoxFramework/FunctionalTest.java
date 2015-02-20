@@ -15,24 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-/* Documentation
- * Class consist of 3 sections
- * - Class variables
- * - Class public methods
- * 	 These are the main methods we will call. Consist of 3 segments for TestNG.
- * 	 > @Before/AfterTest: Executed before the other functions are called WHEN RUNNING FROM TESTNG ONLY.
- * 		• setUp()
- * 		• tearDown()
- * 	 > @Test: The functions called by TestNG. Also the main functional tests.
- * 		• saveRecipeTest()
- * 		• signupTest()
- * 	 > Other @Tests: public functions to be tested but not called, because they are called in other testing functions anyway.
- * 		• loginTest()
- * 		• logoutTest()
- * - Class protected methods
- */
-
-public class FirefoxBrowser extends FirefoxDriver implements Constants{
+public class FunctionalTest extends FirefoxDriver implements Constants{
 	
 	int WAIT_TIME_LOAD_MILLISEC = 2500;
 	int WAIT_TIME_SIGNUP_MILLISEC = 2000;
@@ -46,10 +29,10 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	
 	public enum TestType { NONE, SAVE_RECIPE, PUBLISH }
 	
-	public FirefoxBrowser() {
+	public FunctionalTest() {
 		super();
 	}
-	public FirefoxBrowser(FirefoxProfile profile) {
+	public FunctionalTest(FirefoxProfile profile) {
 		super(profile);
 	}
 	
@@ -71,9 +54,10 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 				username = LOGIN_USER_GENERAL;
 		}
 		
-		this.goToLink(TEST_HOMEPAGE + "/wp-admin/");
+		this.goToLink(TEST_HOMEPAGE + "wp-admin/");
 	    
 	    // Fill in log in fields
+		waitOut(1000);
 	    findElement(By.id("user_login")).sendKeys(username); 
 	    findElement(By.id("user_pass")).sendKeys(LOGIN_PASS);
 	    
@@ -112,7 +96,7 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	public String getSelectorName(String selector) {
 		Map<String,String> selectorNames = new HashMap<String, String>();
 		
-		if (TEST_THEME == "liquor.") {
+		if (TEST_THEME == "liquor") {
 			selectorNames = liqourOldSelectorNames;
 		} else if (TEST_THEME == "liquor2015") {
 			selectorNames = liquor2015SelectorNames;
@@ -166,6 +150,7 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	}
 	protected void clickByLinkText(String text) {
 		this.findElement(By.partialLinkText(text)).click();
+		this.waitOut();
 	}
 	protected void clickByHref(String href) {
 			    

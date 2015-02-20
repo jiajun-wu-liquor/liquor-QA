@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class firefoxTest implements Constants {
 	
 	FirefoxProfile profile = new FirefoxProfile();
-	FirefoxBrowser test = null;
+	FunctionalTest test = null;
 	
 	public static void main(String[] args) {
 	    
@@ -30,20 +30,20 @@ public class firefoxTest implements Constants {
 	    //firefox.tearDown();
 	    
 	    //SignupTest s = new SignupTest(profilez);
-		//s.signupTest();
+		//s.begin();
 		//s.tearDown();
 		
 		//SaveRecipeTest r = new SaveRecipeTest(profilez);
-		//r.saveRecipeTest();
+		//r.begin();
 		//r.tearDown();
 		
 		//PublishTest p = new PublishTest(profilez);
 		//p.begin();
 		//p.tearDown();
 		
-		LoginTest l = new LoginTest(profilez);
-		l.begin();
-		l.tearDown();
+		//LoginTest l = new LoginTest(profilez);
+		//l.begin();
+		//l.tearDown();
 	    
 	}
 	

@@ -5,7 +5,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
-public class SignupTest extends FirefoxBrowser implements Constants {
+public class SignupTest extends FunctionalTest implements Constants {
 	
 	public SignupTest(FirefoxProfile profile){
 		super(profile);
@@ -60,7 +60,7 @@ public class SignupTest extends FirefoxBrowser implements Constants {
 	    }
 	    clickByID("ldc-user-signup-button");
 	    
-	    waitOut(2000);
+	    waitOut(3000);
 	    if (pageDoesContainID("ldc-user-signup-error")) {
     		generateNewSignIn();
     		return;

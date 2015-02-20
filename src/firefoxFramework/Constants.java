@@ -6,8 +6,7 @@
  * 3. the various Test procedure classes: SignupTest, LoginTest, PublishTest, SaveRecipeTest
  * 		Note: 	logging-in in PublishTest and SaveRecipeTest are from back-end (/wp-admin). 
  * 				Not same as front-end login in LoginTest (sign-in button in home page).
- * 4. FirefoxBrowser class: an ill-named class due to legacy-burden. 
- * 		Parent class all tests inherit from, contains essential common methods.
+ * 4. FunctionalTest class: Parent class all tests inherit from. Contains essential common methods.
  * 5. Constants interface: Contains all (most) constants used. 
  * 		Used as a one-stop place to easily find and configure settings on what site domain to test etc.
  */
@@ -44,7 +43,7 @@ import java.util.Map;
 public interface Constants {
 	
 		// Wordpress 
-		public String TEST_DOMAIN = "dev.";
+		public String TEST_DOMAIN = "stg.";
 		public String TEST_THEME = TEST_DOMAIN == "dev." ? "liquor2015" : "liquor";
 		
 		
@@ -62,9 +61,9 @@ public interface Constants {
 					put("login_button", "ldc-user-login");
 					put("article_header", "//h1[@class='entry-title']");
 					put("article_content", "//div[@class='entry-content']/p");
-					put("signup_button", "ldc-user-join button"); //class
+					put("signup_button", "ldc-user-join"); //class
 					put("save_recipe_button", "//div[@id='save-bookmark-button']");
-					put("unsave_recipe_button", "//div{@id='bookmark-saved-button']");
+					put("unsave_recipe_button", "//div[@id='bookmark-saved-button']");
 					put("logout_button", "//div[@class='ldc-user-log-out']");
 				}};
 				
@@ -83,7 +82,7 @@ public interface Constants {
 		public String TEST_SAVERECIPE_RECIPEURL = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/recipes/scotch-and-soda/";
 		public String TEST_SAVERECIPE_SAVEDPAGE = "https://liquor:negroni@" + TEST_DOMAIN + "liquor.com/user-profile/?tab=recipes/";
 		public String TEST_PUBLISH_POSTURL_1 = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/wp-admin/post.php?post=";
-		public String TEST_PUBLISH_POSTURL_2 = "&action=edit/";
+		public String TEST_PUBLISH_POSTURL_2 = "&action=edit";
 		
 		
 		int windowWidth = (int)(1920/3/1.3);

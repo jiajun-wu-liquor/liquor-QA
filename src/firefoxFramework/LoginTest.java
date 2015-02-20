@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.internal.Locatable;
 
-public class LoginTest extends FirefoxBrowser implements Constants {
+public class LoginTest extends FunctionalTest implements Constants {
 	public LoginTest(FirefoxProfile profile){
 		super(profile);
 	}
@@ -28,7 +28,7 @@ public class LoginTest extends FirefoxBrowser implements Constants {
 	    
 	    if (pageDoesContainClass("ldc-user-log-out")) {
 	    	summaryLog("• Logged in");
-	    	summaryLog[0] = summaryLog[0] + " (Successful)";
+	    	summaryLog[0] = summaryLog[0] + " (Success)";
 	    }
 	}
 	
