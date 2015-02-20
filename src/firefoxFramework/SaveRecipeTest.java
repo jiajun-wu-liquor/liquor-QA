@@ -1,12 +1,14 @@
 package firefoxFramework;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.Test;
-import org.openqa.selenium.*;
-
-import firefoxFramework.FirefoxBrowser.TestType;
 
 public class SaveRecipeTest extends FirefoxBrowser {
+	public SaveRecipeTest(FirefoxProfile profile) {
+		super(profile);
+	}
+	
 	@Test(groups = {"saveRecipeTest"} )
 	public void saveRecipeTest() {
 		
@@ -17,7 +19,7 @@ public class SaveRecipeTest extends FirefoxBrowser {
 		
 		if(loginTest(TestType.SAVE_RECIPE)){		
 			saveRecipe();	
-			logoutTest();
+			//logoutTest();
 		} else {
 			summaryLog("• Error: Cannot log in");
 		}
@@ -30,10 +32,10 @@ public class SaveRecipeTest extends FirefoxBrowser {
 		
 		waitOut();
 		
-		if (findElement(By.id("save-bookmark-button")).getAttribute("style").contains("display: none;")) {
+		if (findElement(By.xpath(getSelectorName("save_recipe_button"))).getAttribute("style").contains("display: none;")) {
 			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
-			clickByID("save-bookmark-button");
+			clickByXpath(getSelectorName("save_recipe_button"));
 		}
 		
 		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
@@ -46,7 +48,7 @@ public class SaveRecipeTest extends FirefoxBrowser {
 		// Return to page and un-save recipe
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		try {
-			clickByID("bookmark-saved-button");
+			clickByXpath(getSelectorName("unsave_recipe_button"));
 		} catch (Exception e) {
 			summaryLog("• Could not un-save bookmark. Check that no one else logged in to the same account and un-toggled the saved recipe.");
 		}

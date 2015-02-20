@@ -3,13 +3,16 @@ package firefoxFramework;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
-import firefoxFramework.FirefoxBrowser.TestType;
-import firefoxFramework.configConstants.PostType;
-
 public class PublishTest extends FirefoxBrowser {
+	
+	public PublishTest(FirefoxProfile profile){
+		super(profile);
+	}
+	
 	@Test(groups = {"publishTest"} )
 	public void publishTest() {
 		
@@ -18,13 +21,7 @@ public class PublishTest extends FirefoxBrowser {
 		
 		summaryLog[0] = "Publish Test";
 		if(loginTest(TestType.PUBLISH)) {
-				
 			publish(PostType.ARTICLE);
-			
-			clickByClass("edit-post-status");
-			new Select(findElement(By.id("post_status"))).selectByValue("draft");
-			clickByID("publish");
-			summaryLog("• Article is drafted");
 		} else {
 			summaryLog("• Error: Cannot log in");
 		}
@@ -32,6 +29,18 @@ public class PublishTest extends FirefoxBrowser {
 	
 	@Test(groups = {"publish"} )
 	public void publish(PostType type) {
+		
+		//temporary fix for homepage login != wp-admin login in dev. new theme
+		if (TEST_DOMAIN == "dev.") {
+			this.waitOut(5000);
+			//this.authenticate();
+			goToLink(TEST_HOMEPAGE + "/wp-admin");
+			this.findElement(By.id("user_login")).clear();
+			this.findElement(By.id("user_login")).sendKeys("ldc.ghost-inspector");
+			this.findElement(By.id("user_pass")).clear();
+			this.findElement(By.id("user_pass")).sendKeys("ghostghost");
+			this.findElement(By.id("wp-submit")).click();
+		}
 		
 		goToLink(generateEditPageLink(type));
 		
@@ -42,26 +51,35 @@ public class PublishTest extends FirefoxBrowser {
 		
 		expected[0].replace('-', '–');
 		expected[1] = expected[1].replaceAll("&lt;p&gt;", "").replaceAll("&lt;/p&gt;\n", "");
-		expected[2] = expected[2].replaceAll("300x93", "");
+		expected[2] = expected[2].replaceAll("-300x93", "");
 		
 		clickByID("publish"); 
 		summaryLog("• Article is published.");
 		clickByLinkText("View post");
 		
 		String[] actual = new String[20];
-		actual[0] = getFieldAttributeByClass("innerHTML", "entry-title");
-		actual[1] = getFieldAttributeByXpath("innerHTML", "//div[@class='entry-content']/p");
+		actual[0] = getFieldAttributeByXpath("innerHTML", getSelectorName("article_header"));
+		actual[1] = getFieldAttributeByXpath("innerHTML", getSelectorName("article_content"));
 		actual[2] = getFieldAttributeByClass("src", "wp-post-image");
 		
-		actual[2] = actual[2].replaceAll("290x155", "");
+		int delim1 = actual[2].lastIndexOf('-');
+		int delim2 = actual[2].lastIndexOf('.');
+		actual[2] = actual[2].substring(0, delim1) + actual[2].substring(delim2, actual[2].length());
+//		actual[2] = actual[2].replaceAll("290x155", "");
 		
 		for(int i = 0; i < 3; i++) {
 			assertEquals(actual[i], expected[i]);
 		}
+		
 		summaryLog("• All content assertions are correct");
 		summaryLog[0] = summaryLog[0] + " (Success)";
 		
 		goToLink(generateEditPageLink(type));
+		waitOut(1000);
+		clickByClass("edit-post-status");
+		new Select(findElement(By.id("post_status"))).selectByValue("draft");
+		clickByID("publish");
+		summaryLog("• Article is drafted");
 	}
 	
 	// Generate post URL. Temporary implementation while figuring out arrays in Interface.

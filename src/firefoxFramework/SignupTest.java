@@ -1,11 +1,16 @@
 package firefoxFramework;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
 public class SignupTest extends FirefoxBrowser {
+	
+	public SignupTest(FirefoxProfile profile){
+		super(profile);
+	}
+	
 	@Test(groups = {"signupTest"} )
 	public void signupTest() {
 		//this.setWindowNo(0);
@@ -14,7 +19,7 @@ public class SignupTest extends FirefoxBrowser {
 		summaryLog[0] = "Sign up Test";
 		
 		try {
-			clickByClass("ldc-user-join");
+			clickByClass(this.getSelectorName("signup_button"));
 		} catch (Exception e) {
 			summaryLog("Error: There is no Sign-up button on the current (home) page. Test terminated.");
 			return;

@@ -1,17 +1,19 @@
 package firefoxFramework;
 
-import static org.testng.AssertJUnit.assertEquals;
-
 import java.awt.Toolkit;
 import java.lang.System;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.security.UserAndPassword;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 /* Documentation
  * Class consist of 3 sections
@@ -44,6 +46,13 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	public enum TestType { NONE, SAVE_RECIPE, PUBLISH }
 	
+	public FirefoxBrowser() {
+		super();
+	}
+	public FirefoxBrowser(FirefoxProfile profile) {
+		super(profile);
+	}
+	
 	public boolean loginTest(TestType testType) {
 		
 		String username;
@@ -59,7 +68,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 				username = LOGIN_USER_GENERAL;
 		}
 		
-	    clickByClass("ldc-user-login");
+	    clickByClass(getSelectorName("login_button"));
 	    
 	    // Fill in log in fields
 	    findElement(By.id("login_username")).sendKeys(username); 
@@ -86,7 +95,7 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 				summaryLog(  LOG_TEST_LOGOUT_PASS );
 			}
 		} catch (Exception e) {
-			summaryLog( "Logout - There is no logout button on the current page.");
+			summaryLog( "• Logout - There is no logout button on the current page.");
 		}
 	}
 	
@@ -103,14 +112,37 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		this.quit();
 	}
 	
+	// Authentication
+	public void authenticate() {
+		WebDriverWait wait = new WebDriverWait(this, 10);
+		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+		alert.authenticateUsing(new UserAndPassword("liquor", "negroni"));
+	}
+	
+	//Get CSS selectors
+	public String getSelectorName(String selector) {
+		Map<String,String> selectorNames = new HashMap<String, String>();
+		
+		if (TEST_DOMAIN == "stg.") {
+			selectorNames = liqourOldSelectorNames;
+		} else if (TEST_DOMAIN == "dev.") {
+			selectorNames = liquor2015SelectorNames;
+		} else if (TEST_DOMAIN == "") {
+			selectorNames = liquor2015SelectorNames;
+		}
+		
+		return (String) selectorNames.get(selector);
+	}
+	
 	// Set windowPosition
 	public void setWindowNo(int i) {
-		java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int windowWidth = (int)(screenSize.getWidth()/3/1.3);
-		int windowHeight = (int)(screenSize.getHeight()/3);
-		Dimension windowSize = new Dimension(windowWidth, windowHeight);
+		//java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int windowWidth = (int)(1920/3/1.3);
+		int windowHeight = (int)(1080/3);
+		//Dimension windowSize = new Dimension(windowWidth, windowHeight);
 		
-		this.manage().window().setSize(windowSize);
+		
+		this.manage().window().setSize(new Dimension(windowWidth, windowHeight));
 		this.manage().window().setPosition(new Point(windowWidth*(i%3),windowHeight*(i/3)));
 	}
 	
@@ -140,6 +172,10 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	protected void clickByClass(String className) {
 		this.findElement(By.className(className)).click();
 		this.waitOut();	
+	}
+	protected void clickByXpath(String xpath) {
+		this.findElement(By.xpath(xpath)).click();
+		this.waitOut();
 	}
 	protected void clickByLinkText(String text) {
 		this.findElement(By.partialLinkText(text)).click();
