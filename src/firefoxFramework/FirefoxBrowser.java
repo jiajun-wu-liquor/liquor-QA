@@ -112,11 +112,9 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	public String getSelectorName(String selector) {
 		Map<String,String> selectorNames = new HashMap<String, String>();
 		
-		if (TEST_DOMAIN == "stg.") {
+		if (TEST_THEME == "liquor.") {
 			selectorNames = liqourOldSelectorNames;
-		} else if (TEST_DOMAIN == "dev.") {
-			selectorNames = liquor2015SelectorNames;
-		} else if (TEST_DOMAIN == "") {
+		} else if (TEST_THEME == "liquor2015") {
 			selectorNames = liquor2015SelectorNames;
 		}
 		
