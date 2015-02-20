@@ -53,6 +53,9 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 		super(profile);
 	}
 	
+	public void begin() {
+	}
+	
 	public boolean loginTest(TestType testType) {
 		
 		String username;
@@ -101,11 +104,8 @@ public class FirefoxBrowser extends FirefoxDriver implements configConstants{
 	
 	@BeforeTest
 	public void setUp() {
-		//System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
-		
-		// Launch the Liquor.com Website
-	    //goToLink(TEST_HOMEPAGE);
 	}
+	
 	@AfterTest
 	public void tearDown() {
 		this.summarise();

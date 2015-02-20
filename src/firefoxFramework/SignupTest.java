@@ -12,7 +12,7 @@ public class SignupTest extends FirefoxBrowser {
 	}
 	
 	@Test(groups = {"signupTest"} )
-	public void signupTest() {
+	public void begin() {
 		//this.setWindowNo(0);
 		goToLink(TEST_HOMEPAGE);
 		

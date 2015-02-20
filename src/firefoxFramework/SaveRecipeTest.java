@@ -10,7 +10,7 @@ public class SaveRecipeTest extends FirefoxBrowser {
 	}
 	
 	@Test(groups = {"saveRecipeTest"} )
-	public void saveRecipeTest() {
+	public void begin() {
 		
 		//this.setWindowNo(1);
 		goToLink(TEST_HOMEPAGE);

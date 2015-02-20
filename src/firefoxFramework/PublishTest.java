@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class PublishTest extends FirefoxBrowser {
@@ -13,8 +14,16 @@ public class PublishTest extends FirefoxBrowser {
 		super(profile);
 	}
 	
+	@BeforeTest
+	public void setBrowserPreference() {
+		FirefoxProfile profile = new FirefoxProfile();
+	    profile.setPreference("webdriver.load.strategy", "unstable");
+	    
+	    PublishTest p = new PublishTest(profile);
+	}
+	
 	@Test(groups = {"publishTest"} )
-	public void publishTest() {
+	public void begin() {
 		
 		//this.setWindowNo(2);
 		this.goToLink(TEST_HOMEPAGE);
@@ -27,7 +36,6 @@ public class PublishTest extends FirefoxBrowser {
 		}
 	}
 	
-	@Test(groups = {"publish"} )
 	public void publish(PostType type) {
 		
 		//temporary fix for homepage login != wp-admin login in dev. new theme
