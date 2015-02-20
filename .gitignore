@@ -2,6 +2,9 @@
 Thumbs.db
 ehthumbs.db
 
+#Ignore these folders
+test-output/
+
 # Folder config file
 Desktop.ini
 
@@ -41,3 +44,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+.project
+.classpath
+bin/firefoxFramework/configConstants.class
+src/firefoxFramework/configConstants.java
+bin/firefoxFramework/SafariBrowser.class
+src/firefoxFramework/SafariBrowser.java

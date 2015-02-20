@@ -14,20 +14,12 @@ public class PublishTest extends FirefoxBrowser implements Constants {
 		super(profile);
 	}
 	
-	@BeforeTest
-	public void setBrowserPreference() {
-		FirefoxProfile profile = new FirefoxProfile();
-	    profile.setPreference("webdriver.load.strategy", "unstable");
-	    
-	    PublishTest p = new PublishTest(profile);
-	}
-	
 	@Test(groups = {"publishTest"} )
 	public void begin() {
 		this.goToLink(TEST_HOMEPAGE);
 		
 		summaryLog[0] = "Publish Test";
-		if(loginTest(TestType.PUBLISH)) {
+		if(login(TestType.PUBLISH)) {
 			publish(PostType.ARTICLE);
 		} else {
 			summaryLog("• Error: Cannot log in");
@@ -37,7 +29,7 @@ public class PublishTest extends FirefoxBrowser implements Constants {
 	public void publish(PostType type) {
 		
 		//temporary fix for homepage login != wp-admin login in dev. new theme
-		if (TEST_DOMAIN == "dev.") {
+		/*if (TEST_DOMAIN == "dev.") {
 			this.waitOut(5000);
 			//this.authenticate();
 			goToLink(TEST_HOMEPAGE + "/wp-admin");
@@ -46,7 +38,7 @@ public class PublishTest extends FirefoxBrowser implements Constants {
 			this.findElement(By.id("user_pass")).clear();
 			this.findElement(By.id("user_pass")).sendKeys("ghostghost");
 			this.findElement(By.id("wp-submit")).click();
-		}
+		}*/
 		
 		goToLink(generateEditPageLink(type));
 		

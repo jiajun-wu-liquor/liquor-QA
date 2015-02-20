@@ -56,7 +56,7 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	public void begin() {
 	}
 	
-	public boolean loginTest(TestType testType) {
+	public boolean login(TestType testType) {
 		
 		String username;
 		
@@ -71,35 +71,24 @@ public class FirefoxBrowser extends FirefoxDriver implements Constants{
 				username = LOGIN_USER_GENERAL;
 		}
 		
-	    clickByClass(getSelectorName("login_button"));
+		this.goToLink(TEST_HOMEPAGE + "/wp-admin/");
 	    
 	    // Fill in log in fields
-	    findElement(By.id("login_username")).sendKeys(username); 
-	    findElement(By.id("login_password")).sendKeys(LOGIN_PASS);
+	    findElement(By.id("user_login")).sendKeys(username); 
+	    findElement(By.id("user_pass")).sendKeys(LOGIN_PASS);
 	    
-	    clickByID("ldc-user-signin-button");
+	    clickByID("wp-submit");
 	    
-	    if (pageDoesContainClass("ldc-user-log-out")) {
-	    	summaryLog( LOG_TEST_LOGIN_PASS);
+	    
+	    //getFieldAttributeByXpath("innerHTML", "//div[@class='wrao']/h2") == "Dashboard"
+	    if (this.pageDoesContainText("Dashboard")) {
+	    	summaryLog("• Logged into backend");
 	    	return true;
 	    }
 	    return false;
-	
 	}
-	public void loginTest() {
-		loginTest(TestType.NONE);
-	}
-	
-	public void logoutTest() {
-		
-		try {	
-			clickByClass("ldc-user-log-out");
-			if (pageDoesContainClass("ldc-user-login")){
-				summaryLog(  LOG_TEST_LOGOUT_PASS );
-			}
-		} catch (Exception e) {
-			summaryLog( "• Logout - There is no logout button on the current page.");
-		}
+	public void login() {
+		login(TestType.NONE);
 	}
 	
 	@BeforeTest

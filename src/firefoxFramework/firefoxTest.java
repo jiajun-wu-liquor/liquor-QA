@@ -14,6 +14,9 @@ public class firefoxTest implements Constants {
 	
 	public static void main(String[] args) {
 	    
+		FirefoxProfile profilez = new FirefoxProfile();
+		profilez.setPreference("webdriver.load.strategy", "unstable");
+		
 		/*
 		System.out.println(LOG_TEST_BROWSER_START + "Chrome...");
 		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
@@ -26,27 +29,27 @@ public class firefoxTest implements Constants {
 	    //firefox.publishTest();
 	    //firefox.tearDown();
 	    
-	    //SignupTest s = new SignupTest(profile);
+	    //SignupTest s = new SignupTest(profilez);
 		//s.signupTest();
 		//s.tearDown();
 		
-		//SaveRecipeTest r = new SaveRecipeTest();
+		//SaveRecipeTest r = new SaveRecipeTest(profilez);
 		//r.saveRecipeTest();
 		//r.tearDown();
+		
+		//PublishTest p = new PublishTest(profilez);
+		//p.begin();
+		//p.tearDown();
+		
+		LoginTest l = new LoginTest(profilez);
+		l.begin();
+		l.tearDown();
 	    
 	}
 	
 	@BeforeTest
 	public void setProfilePreference() {
 	    profile.setPreference("webdriver.load.strategy", "unstable");
-	}
-	
-	@Test
-	public void publishTest() {
-	    test = new PublishTest(profile);
-	   // this.resizeToWindow(0);
-	    test.begin();
-	    test.tearDown();
 	}
 	
 	@Test
@@ -58,9 +61,25 @@ public class firefoxTest implements Constants {
 	}
 	
 	@Test
+	public void publishTest() {
+	    test = new PublishTest(profile);
+	    this.resizeToWindow(1);
+	    test.begin();
+	    test.tearDown();
+	}
+	
+	@Test
 	public void saveRecipeTest() {
 		test = new SaveRecipeTest(profile);
-		//this.resizeToWindow(2);
+		this.resizeToWindow(2);
+		test.begin();
+		test.tearDown();
+	}
+	
+	@Test
+	public void loginTest() {
+		test = new LoginTest(profile);
+		this.resizeToWindow(4);
 		test.begin();
 		test.tearDown();
 	}

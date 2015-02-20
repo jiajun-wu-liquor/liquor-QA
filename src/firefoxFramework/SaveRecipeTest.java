@@ -16,7 +16,7 @@ public class SaveRecipeTest extends FirefoxBrowser implements Constants {
 		
 		summaryLog[0] = "Save Recipe Test";
 		
-		if(loginTest(TestType.SAVE_RECIPE)){		
+		if(login(TestType.SAVE_RECIPE)){		
 			saveRecipe();
 		} else {
 			summaryLog("• Error: Cannot log in");

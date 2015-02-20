@@ -7,6 +7,7 @@ public interface Constants {
 	
 		// Wordpress 
 		public String TEST_DOMAIN = "dev.";
+		public String TEST_THEME = TEST_DOMAIN == "dev." ? "liquor2015" : "liquor";
 		/* Ensure:
 		 * - Ghost users are created
 		 * - Post are created BY ghost for each editor's template
@@ -29,6 +30,7 @@ public interface Constants {
 					put("signup_button", "ldc-user-join button"); //class
 					put("save_recipe_button", "//div[@id='save-bookmark-button']");
 					put("unsave_recipe_button", "//div{@id='bookmark-saved-button']");
+					put("logout_button", "//div[@class='ldc-user-log-out']");
 				}};
 				
 		public static Map<String, String> liquor2015SelectorNames = new HashMap<String, String>()
@@ -39,13 +41,14 @@ public interface Constants {
 					put("signup_button", "nav-user-join"); //class
 					put("save_recipe_button", "//button[@class='btn btn-default btn-save']");
 					put("unsave_recipe_button", "//span[@class='message']");
+					put("logout_button", "//ul[@id='wp-admin-bar-user-actions']/li[@id='wp-admin-bar-logout']");
 				}};
 		
 		public String TEST_HOMEPAGE = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com";
 		public String TEST_SAVERECIPE_RECIPEURL = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/recipes/scotch-and-soda/";
-		public String TEST_SAVERECIPE_SAVEDPAGE = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/user-profile/?tab=recipes";
+		public String TEST_SAVERECIPE_SAVEDPAGE = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/user-profile/?tab=recipes/";
 		public String TEST_PUBLISH_POSTURL_1 = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/wp-admin/post.php?post=";
-		public String TEST_PUBLISH_POSTURL_2 = "&action=edit";
+		public String TEST_PUBLISH_POSTURL_2 = "&action=edit/";
 		
 		
 		int windowWidth = (int)(1920/3/1.3);
