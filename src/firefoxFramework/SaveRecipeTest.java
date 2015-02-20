@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.Test;
 
-public class SaveRecipeTest extends FirefoxBrowser {
+public class SaveRecipeTest extends FirefoxBrowser implements Constants {
 	public SaveRecipeTest(FirefoxProfile profile) {
 		super(profile);
 	}
@@ -12,14 +12,12 @@ public class SaveRecipeTest extends FirefoxBrowser {
 	@Test(groups = {"saveRecipeTest"} )
 	public void begin() {
 		
-		//this.setWindowNo(1);
 		goToLink(TEST_HOMEPAGE);
 		
 		summaryLog[0] = "Save Recipe Test";
 		
 		if(loginTest(TestType.SAVE_RECIPE)){		
-			saveRecipe();	
-			//logoutTest();
+			saveRecipe();
 		} else {
 			summaryLog("• Error: Cannot log in");
 		}

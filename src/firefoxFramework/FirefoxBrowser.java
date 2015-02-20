@@ -32,7 +32,7 @@ import org.testng.annotations.BeforeTest;
  * - Class protected methods
  */
 
-public class FirefoxBrowser extends FirefoxDriver implements configConstants{
+public class FirefoxBrowser extends FirefoxDriver implements Constants{
 	
 	int WAIT_TIME_LOAD_MILLISEC = 2500;
 	int WAIT_TIME_SIGNUP_MILLISEC = 2000;

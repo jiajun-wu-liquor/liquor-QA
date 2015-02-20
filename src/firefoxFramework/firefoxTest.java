@@ -1,11 +1,13 @@
 package firefoxFramework;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class firefoxTest implements configConstants {
+public class firefoxTest implements Constants {
 	
 	FirefoxProfile profile = new FirefoxProfile();
 	FirefoxBrowser test = null;
@@ -42,6 +44,7 @@ public class firefoxTest implements configConstants {
 	@Test
 	public void publishTest() {
 	    test = new PublishTest(profile);
+	   // this.resizeToWindow(0);
 	    test.begin();
 	    test.tearDown();
 	}
@@ -49,6 +52,7 @@ public class firefoxTest implements configConstants {
 	@Test
 	public void signupTest() {
 		test = new SignupTest(profile);
+		//this.resizeToWindow(1);
 		test.begin();
 		test.tearDown();
 	}
@@ -56,8 +60,14 @@ public class firefoxTest implements configConstants {
 	@Test
 	public void saveRecipeTest() {
 		test = new SaveRecipeTest(profile);
+		//this.resizeToWindow(2);
 		test.begin();
 		test.tearDown();
+	}
+	
+	public void resizeToWindow(int i) {
+		test.manage().window().setSize(new Dimension(windowWidth, windowHeight));
+		test.manage().window().setPosition(new Point(windowWidth*(i%3),windowHeight*(i/3)));
 	}
 	
 	public FirefoxProfile getProfile() {

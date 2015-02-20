@@ -5,7 +5,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
-public class SignupTest extends FirefoxBrowser {
+public class SignupTest extends FirefoxBrowser implements Constants {
 	
 	public SignupTest(FirefoxProfile profile){
 		super(profile);
@@ -13,7 +13,6 @@ public class SignupTest extends FirefoxBrowser {
 	
 	@Test(groups = {"signupTest"} )
 	public void begin() {
-		//this.setWindowNo(0);
 		goToLink(TEST_HOMEPAGE);
 		
 		summaryLog[0] = "Sign up Test";

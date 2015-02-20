@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface Constants {
 	
-	    // Wordpress 
+		// Wordpress 
 		public String TEST_DOMAIN = "dev.";
 		/* Ensure:
 		 * - Ghost users are created
@@ -47,6 +47,9 @@ public interface Constants {
 		public String TEST_PUBLISH_POSTURL_1 = "http://liquor:negroni@" + TEST_DOMAIN + "liquor.com/wp-admin/post.php?post=";
 		public String TEST_PUBLISH_POSTURL_2 = "&action=edit";
 		
+		
+		int windowWidth = (int)(1920/3/1.3);
+		int windowHeight = (int)(1080/3);
 		
 		// Wordpress username password
 			// Deprecated
