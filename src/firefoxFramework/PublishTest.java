@@ -15,8 +15,8 @@ public class PublishTest extends FunctionalTest implements Constants {
 	}
 	
 	@Test(groups = {"publishTest"} )
-	public void begin() {
-		summaryLog[0] = "Publish Test";
+	public void begin(PostType postType) {
+		summaryLog[0] = "Publish Test - " + postType.toString().substring(0, 1).toUpperCase() + postType.toString().substring(1);
 		if (TEST_DOMAIN == "") {
 			summaryLog("• Publish test is not executed on liquor.com. We are not gonna be messing with the real content right? ;)");
 			return;
@@ -25,13 +25,13 @@ public class PublishTest extends FunctionalTest implements Constants {
 		this.goToLink(TEST_HOMEPAGE);
 		
 		if(login(TestType.PUBLISH)) {
-			publish(PostType.ARTICLE);
+			publish(postType);
 		} else {
 			summaryLog("• Error: Cannot log in");
 		}
 	}
 	
-	public void publish(PostType type) {
+	public void publish(PostType postType) {
 		
 		//temporary fix for homepage login != wp-admin login in dev. new theme
 		/*if (TEST_DOMAIN == "dev.") {
@@ -45,7 +45,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 			this.findElement(By.id("wp-submit")).click();
 		}*/
 		
-		goToLink(generateEditPageLink(type));
+		goToLink(generateEditPageLink(postType));
 		
 		String[] expected = new String[20];
 		expected[0] = getFieldAttributeById("value", "title");
@@ -77,7 +77,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 		summaryLog("• All content assertions are correct");
 		summaryLog[0] = summaryLog[0] + " (Success)";
 		
-		goToLink(generateEditPageLink(type));
+		goToLink(generateEditPageLink(postType));
 		waitOut(1000);
 		clickByClass("edit-post-status");
 		new Select(findElement(By.id("post_status"))).selectByValue("draft");

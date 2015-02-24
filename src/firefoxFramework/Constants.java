@@ -43,9 +43,9 @@ import java.util.Map;
 public interface Constants {
 	
 		// Wordpress 
-		public String TEST_DOMAIN = "";
+		public String TEST_DOMAIN = "dev.";
 		public String TEST_THEME = TEST_DOMAIN == "dev." ? "liquor2015" : "liquor";
-		public String BAT_SUITE_USER_URL = TEST_DOMAIN == "dev." ? "https://app.ghostinspector.com/suites/54dd3853c918b9a14332f45c" : "https://app.ghostinspector.com/suites/54b9665f3c3c5403686aa177";
+		public String BAT_SUITE_USER_URL = TEST_THEME == "liquor2015" ? "https://app.ghostinspector.com/suites/54dd3853c918b9a14332f45c" : "https://app.ghostinspector.com/suites/54b9665f3c3c5403686aa177";
 		
 		// Wordpress post_id
 		public enum PostType {

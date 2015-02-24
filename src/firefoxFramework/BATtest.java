@@ -33,4 +33,5 @@ public class BATtest extends FunctionalTest implements Constants {
 		
 		waitOut();
 	}
+	
 }
