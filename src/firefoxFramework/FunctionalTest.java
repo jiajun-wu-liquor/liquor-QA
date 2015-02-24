@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -36,7 +37,9 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 		super(profile);
 	}
 	
-	public void begin() {
+	public void begin() {					// for error-free calling of child functions
+	}
+	public void begin(PostType postType){	// for publishTest
 	}
 	
 	public boolean login(TestType testType) {
@@ -172,6 +175,8 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	protected boolean pageDoesContainID(String id) {
 		return this.findElements(By.id(id)).size() > 0;
 	}
+	
+	/*
 	protected String getFieldAttributeById(String attribute, String id) {
 		return this.findElement(By.id(id)).getAttribute(attribute);
 	}
@@ -181,6 +186,41 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	protected String getFieldAttributeByXpath(String attribute, String xpath) {
 		return this.findElement(By.xpath(xpath)).getAttribute(attribute);
 	}
+	*/
+	
+	
+	// Eg: <input value="valueWanted" id="name"> : getAttributeBySelectorAndName("id","name", "value") == "valueWanted";
+	protected String getAttributeBySelectorAndName(String selector, String name, String attribute) { // getFieldAttributeByName(String attribute, String nameValue) {
+		By bySelector = null;
+		
+		switch (selector) {
+		case "name":
+			bySelector = By.name(name);
+			break;
+		case "id":
+			bySelector = By.id(name);
+			break;
+		case "class":
+			bySelector = By.className(name);
+			break;
+		case "xpath":
+			bySelector = By.xpath(name);
+			break;
+		default:
+			summaryLog("• Field cannot be foudn using this selector method");
+		}
+		
+		WebElement element = this.findElement(bySelector);
+		
+		if (element.getTagName() == "select") {
+			return new Select(element).getFirstSelectedOption().getText();
+		}
+		
+		return element.getAttribute(attribute);
+	}
+	protected String getAttributeBySelectorAndName(String selector, String name){
+		return getAttributeBySelectorAndName(selector,name,"");
+	}
 	
 	// Waiting function
 	protected void waitOut() {
@@ -189,6 +229,8 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	    } catch (Exception e) {
 	    }
 		
+		// TODO try this wait method
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("includeStudents")));		
 		// TODO try this wait method
 		//WebDriverWait wait = new WebDriverWait(driver, 10);
 		//WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ID")));

@@ -41,9 +41,9 @@ public class firefoxTest implements Constants {
 		//r.begin();
 		//r.tearDown();
 		
-		//PublishTest p = new PublishTest(profilez);
-		//p.begin();
-		//p.tearDown();
+		PublishTest p = new PublishTest(profilez);
+		p.begin(PostType.ARTICLE);
+		p.tearDown();
 		
 		//LoginTest l = new LoginTest(profilez);
 		//l.begin();
@@ -62,6 +62,7 @@ public class firefoxTest implements Constants {
 	public void signupTest() {
 		test = new SignupTest(profile);
 		//this.resizeToWindow(1);
+		System.out.println("Signup test launched");
 		test.begin();
 		test.tearDown();
 	}
@@ -70,7 +71,8 @@ public class firefoxTest implements Constants {
 	public void publishTest() {
 	    test = new PublishTest(profile);
 	    this.resizeToWindow(1);
-	    test.begin();
+		System.out.println("Publish test launched");
+	    test.begin(PostType.RECIPE);
 	    test.tearDown();
 	}
 	
@@ -78,6 +80,7 @@ public class firefoxTest implements Constants {
 	public void saveRecipeTest() {
 		test = new SaveRecipeTest(profile);
 		this.resizeToWindow(2);
+		System.out.println("Save Recipe test launched");
 		test.begin();
 		test.tearDown();
 	}
@@ -86,6 +89,7 @@ public class firefoxTest implements Constants {
 	public void loginTest() {
 		test = new LoginTest(profile);
 		this.resizeToWindow(4);
+		System.out.println("Login test launched");
 		test.begin();
 		test.tearDown();
 	}
@@ -94,6 +98,7 @@ public class firefoxTest implements Constants {
 	public void BATtest() {
 		test = new BATtest();
 		this.resizeToWindow(5);
+		System.out.println("BAT test launched");
 		test.begin();
 		test.summarise();
 	}
