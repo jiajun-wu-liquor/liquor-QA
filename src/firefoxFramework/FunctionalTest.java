@@ -57,7 +57,7 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 		this.goToLink(TEST_HOMEPAGE + "wp-admin/");
 	    
 	    // Fill in log in fields
-		waitOut(1000);
+		waitOut();
 	    findElement(By.id("user_login")).sendKeys(username); 
 	    findElement(By.id("user_pass")).sendKeys(LOGIN_PASS);
 	    

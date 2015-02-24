@@ -16,9 +16,14 @@ public class PublishTest extends FunctionalTest implements Constants {
 	
 	@Test(groups = {"publishTest"} )
 	public void begin() {
+		summaryLog[0] = "Publish Test";
+		if (TEST_DOMAIN == "") {
+			summaryLog("• Publish test is not executed on liquor.com. We are not gonna be messing with the real content right? ;)");
+			return;
+		}
+		
 		this.goToLink(TEST_HOMEPAGE);
 		
-		summaryLog[0] = "Publish Test";
 		if(login(TestType.PUBLISH)) {
 			publish(PostType.ARTICLE);
 		} else {

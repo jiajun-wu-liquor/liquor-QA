@@ -1,5 +1,8 @@
 package firefoxFramework;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -14,20 +17,21 @@ public class firefoxTest implements Constants {
 	
 	public static void main(String[] args) {
 	    
-		FirefoxProfile profilez = new FirefoxProfile();
+		FirefoxProfile profilez = new FirefoxProfile(new File("C:////Users//david//AppData//Roaming//Mozilla//Firefox//Profiles//31j2jky2.liquor"));
 		profilez.setPreference("webdriver.load.strategy", "unstable");
 		
+		/*profilez.setPreference("network.negotiate-auth.trusteduris", "http://dev.liquor.com");
+		try {
+			profilez.addExtension(new File("C:////Users//david//workspace//addons//autoauth-2.1-fx+fn.xpi"));
+		} catch (IOException e) {
+			System.out.println("AutoAuth extension not found");
+			e.printStackTrace();
+		}*/
+		
 		/*
-		System.out.println(LOG_TEST_BROWSER_START + "Chrome...");
 		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
 	    ChromeBrowser chrome = new ChromeBrowser();
 	    */
-		
-		//System.out.println(LOG_TEST_BROWSER_START + "Firefox...");
-	    //FirefoxBrowser firefox = new FirefoxBrowser();
-	    //firefox.setUp();
-	    //firefox.publishTest();
-	    //firefox.tearDown();
 	    
 	    //SignupTest s = new SignupTest(profilez);
 		//s.begin();
@@ -45,6 +49,8 @@ public class firefoxTest implements Constants {
 		//l.begin();
 		//l.tearDown();
 	    
+		//BATtest b = new BATtest();
+		//b.begin();
 	}
 	
 	@BeforeTest
@@ -82,6 +88,14 @@ public class firefoxTest implements Constants {
 		this.resizeToWindow(4);
 		test.begin();
 		test.tearDown();
+	}
+	
+	@Test
+	public void BATtest() {
+		test = new BATtest();
+		this.resizeToWindow(5);
+		test.begin();
+		test.summarise();
 	}
 	
 	public void resizeToWindow(int i) {

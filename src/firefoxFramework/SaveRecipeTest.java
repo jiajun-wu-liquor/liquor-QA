@@ -35,6 +35,7 @@ public class SaveRecipeTest extends FunctionalTest implements Constants {
 			summaryLog("• Warning: The recipe was not un-saved previously!");
 		} else {
 			clickByXpath(getSelectorName("save_recipe_button"));
+			summaryLog("• Bookmark saved");
 		}
 		
 		goToLink(TEST_SAVERECIPE_SAVEDPAGE);
@@ -48,6 +49,7 @@ public class SaveRecipeTest extends FunctionalTest implements Constants {
 		goToLink(TEST_SAVERECIPE_RECIPEURL);
 		try {
 			clickByXpath(getSelectorName("unsave_recipe_button"));
+			summaryLog("• Bookmark unsaved");
 		} catch (Exception e) {
 			summaryLog("• Could not un-save bookmark. Check that no one else logged in to the same account and un-toggled the saved recipe. Else see Exception error message below: ");
 			summaryLog(e.getMessage());		}
