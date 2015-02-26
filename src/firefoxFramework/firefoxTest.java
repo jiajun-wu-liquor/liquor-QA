@@ -41,16 +41,16 @@ public class firefoxTest implements Constants {
 		//r.begin();
 		//r.tearDown();
 		
-		PublishTest p = new PublishTest(profilez);
-		p.begin(PostType.RECIPE);
-		p.tearDown();
+		//PublishTest p = new PublishTest(profilez);
+		//p.begin(PostType.RECIPE);
+		//p.tearDown();
 		
 		//LoginTest l = new LoginTest(profilez);
 		//l.begin();
 		//l.tearDown();
 	    
-		//BATtest b = new BATtest();
-		//b.begin();
+		BATtest b = new BATtest();
+		b.begin();
 	}
 	
 	@BeforeTest

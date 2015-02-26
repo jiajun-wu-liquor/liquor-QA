@@ -1,6 +1,6 @@
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~
- * Documentation
- * ~~~~~~~~~~~~~~~~~~~~~~~~~
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Documentation. Open up to read.
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 /* =========================
@@ -103,7 +103,8 @@ public interface Constants {
 					put("recipe_ingredient", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-9']");
 					put("recipe_unit", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-3 text-right']");
 					//put("recipe_glasstype", "//div[@class='row ingredients-preparation']/div/div[3]/div[@class='col-xs-9']"); // xpath cannot be identified
-					put("recipe_prep", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-3 text-right']");
+					//put("recipe_prep", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-3 text-right']");
+					put("recipe_img", "//div[@id='img-hero']/img");
 					
 					/* new recipe xpaths
 					put("recipe_about", "//div[@class='x-recipe-about]");

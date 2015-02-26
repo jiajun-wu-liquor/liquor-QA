@@ -45,24 +45,23 @@ public class PublishTest extends FunctionalTest implements Constants {
 		
 		String[] expected = getExpectedValues(postType);
 		
-		clickByID("publish"); 
+		clickByID("publish");
+		waitOut(2000);
 		summaryLog("• " + postTypeName + " is published.");
 		clickByLinkText("View post");
 		
-		String[] actual = getActualValues(postType);
+		String[] actualResult = getActualValues(postType);
 		
-		if (true) return;
-		
-		if (expectedSize == 0) {
-			summaryLog("• The checklistSize is not updated. Asserts cannot work like this.");
-			return;
-		}
-		
+		try {
 		for(int i = 0; i < expectedSize ; i++) {
-			System.out.println(expected[i]);
-			//assertEquals(actual[i], expected[i]);
+			assertEquals(actualResult[i], expected[i]);
 		}
 		System.out.println("");
+		} catch (Exception e) {
+			summaryLog("• Actual result and expected did not match");
+			summaryLog(e.getMessage());
+		}
+		
 		
 		summaryLog("• All content assertions are correct");
 		summaryLog[0] = summaryLog[0] + " (Success)";
@@ -92,12 +91,12 @@ public class PublishTest extends FunctionalTest implements Constants {
 		
 	public String[] getExpectedValues(PostType postType) {
 		if ( postType == PostType.ARTICLE) {
-			String title = getAttributeBySelectorAndName("id", "title","value");
-			String content = getAttributeBySelectorAndName("id", "content","innerHTML");
-			String featuredImg = getAttributeBySelectorAndName("class", "attachment-266x266","src");
+			String title = getAttributeByMethodAndSelector("id", "title","value");
+			String content = getAttributeByMethodAndSelector("id", "content","innerHTML");
+			String featuredImg = getAttributeByMethodAndSelector("class", "attachment-266x266","src");
 			
 			// formatting
-			title.replace('-', '–');
+			title = title.replace('-', '–');
 			content = content.replaceAll("&lt;p&gt;", "").replaceAll("&lt;/p&gt;\n", "");
 			featuredImg = featuredImg.replaceAll("-300x93", "");
 			
@@ -107,17 +106,18 @@ public class PublishTest extends FunctionalTest implements Constants {
 		}
 		
 		if ( postType == PostType.RECIPE) {
-			String title = getAttributeBySelectorAndName("id", "title", "value"); //Name of recipe follows post title, so I used this
-			String about = getAttributeBySelectorAndName("id", "About", "innerHTML");
-			String ingredient = getAttributeBySelectorAndName("name", "Ingredient[name][]", "value");
-			String amount = getAttributeBySelectorAndName("name", "Ingredient[amount][]", "value");
-			String unit = getAttributeBySelectorAndName("name", "Ingredient[unit][]");
-			//String glasstype = getAttributeBySelectorAndName("id", "GlassType");
-			//String instructions = getAttributeBySelectorAndName("id", "Instructions", "innerHTML");
-			String prep = getAttributeBySelectorAndName("name", "PreparationStep[]", "value");
-			String featuredImg = getAttributeBySelectorAndName("class", "attachment-266x266", "src"); // featureImg may become a legacy. prepare to remove
+			String title = getAttributeByMethodAndSelector("id", "title", "value"); //Name of recipe follows post title, so I used this
+			String about = getAttributeByMethodAndSelector("id", "About", "innerHTML");
+			String ingredient = getAttributeByMethodAndSelector("name", "Ingredient[name][]", "value");
+			String amount = getAttributeByMethodAndSelector("name", "Ingredient[amount][]", "value");
+			String unit = getAttributeByMethodAndSelector("name", "Ingredient[unit][]");
+			//String glasstype = getAttributeByMethodAndSelector("id", "GlassType");
+			//String instructions = getAttributeByMethodAndSelector("id", "Instructions", "innerHTML");
+			String prep = getAttributeByMethodAndSelector("name", "PreparationStep[]", "value");
+			String featuredImg = getAttributeByMethodAndSelector("class", "attachment-266x266", "src"); // featureImg may become a legacy. prepare to remove
 			
 			// formatting
+			title = title.replace("-", "–");
 			int delimDecimal = amount.indexOf('.');
 			amount = amount.substring(0, delimDecimal) + " " + unit;
 			featuredImg = featuredImg.replaceAll("-300x93", "");
@@ -128,45 +128,42 @@ public class PublishTest extends FunctionalTest implements Constants {
 			addToExpected(amount);
 			//addToExpected(glasstype); // TODO currently not added because the xpath is very hard to identify. add an id for it?
 			//addToExpected(instructions); // TODO instructions is not displayed in page
-			addToExpected(prep);
+			//addToExpected(prep);
 			addToExpected(featuredImg);
 		}
-		
-		for(int i = 0; i < expectedSize; i++) {
-			System.out.println(expected[i]);
-		}
-		System.out.println("");
 		
 		return expected;
 	}
 	
 	public String[] getActualValues(PostType postType) {
-		String[] actual = new String[20];
-		
+		// TODO format before addtoactual
 		if ( postType == PostType.ARTICLE) {
-			addToActual(getAttributeBySelectorAndName("xpath", getSelectorName("article_header"), "innerHTML"));
-			addToActual(getAttributeBySelectorAndName("xpath", getSelectorName("article_content"), "innerHTML"));
-			addToActual(getAttributeBySelectorAndName("class", "wp-post-image", "src"));
+			addToActual(getAttributeByMethodAndSelector("xpath", getSelectorName("article_header"), "innerHTML"));
+			addToActual(getAttributeByMethodAndSelector("xpath", getSelectorName("article_content"), "innerHTML"));
+			addToActual(getAttributeByMethodAndSelector("class", "wp-post-image", "src"));
 			
-			int delim1 = actual[2].lastIndexOf('-');
-			int delim2 = actual[2].lastIndexOf('.');
-			actual[2] = actual[2].substring(0, delim1) + actual[2].substring(delim2, actual[2].length());
+			int delim1 = actualResult[2].lastIndexOf('-');
+			int delim2 = actualResult[2].lastIndexOf('.');
+			actualResult[2] = actualResult[2].substring(0, delim1) + actualResult[2].substring(delim2, actualResult[2].length());
 		}
 		
 		if (postType == PostType.RECIPE) {
-			String title = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_header"), "innerHTML");
-			String about = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_about"), "innerHTML");
-			String ingredient = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_ingredient"), "innerHTML");
-			String unit = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_unit"), "innerHTML");
+			String title = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_header"), "innerHTML");
+			String about = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_about"), "innerHTML");
+			String ingredient = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_ingredient"), "innerHTML");
+			String unit = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_unit"), "innerHTML");
 			//String glasstype = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_glasstype")); // xpath cannot be identified
 			//String instrucitons = CREATE XPATH FOR INSTRUCTIONS
-			String prep = this.findElements(By.xpath(getSelectorName("recipe_prep"))).get(1).getAttribute("innerHTML"); 
+			// TODO change all these findelements with the new xpaths
+			//String prep = findElements(By.xpath(getSelectorName("recipe_prep"))).get(1).getAttribute("innerHTML"); 
 //					getSelectorName("recipe_prep"), "innerHTML");
+			String featuredImg = this.getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_img"), "src");
 			
 			// formatting
-			title.replace(" Cocktail", "");
+			title = title.replace("The ", "").replace(" Cocktail", "");
 			ingredient = ingredient.replaceAll("	", "").replace("\n", "");
 			unit = unit.replaceAll("	", "").replace("\n", "");
+			featuredImg = featuredImg.replace("-300x93", "");
 			
 			addToActual(title);
 			addToActual(about);
@@ -174,24 +171,18 @@ public class PublishTest extends FunctionalTest implements Constants {
 			addToActual(unit);
 			//addToActual(glasstype);
 			//addToActual(instructions);
-			addToActual(prep);
-			
-			//addToActual(featuredImg);
+			//addToActual(prep);
+			addToActual(featuredImg);
 		}
 		
-		for(int i = 0; i < actualSize; i++) {
-			System.out.println(actualResult[i]);
-		}
-		System.out.println("");
-		
-		return actual;
+		return actualResult;
 	}
 	
 	// Eg: <input value="valueWanted" id="name"> : getAttributeBySelectorAndName("id","name", "value") == "valueWanted";
-	protected String getAttributeBySelectorAndName(String selector, String name, String attribute) {
+	protected String getAttributeByMethodAndSelector(String method, String name, String attribute) {
 		By bySelector = null;
 		
-		switch (selector) {
+		switch (method) {
 		case "name":
 			bySelector = By.name(name);
 			break;
@@ -216,8 +207,8 @@ public class PublishTest extends FunctionalTest implements Constants {
 		
 		return element.getAttribute(attribute);
 	}
-	protected String getAttributeBySelectorAndName(String selector, String name){
-		return getAttributeBySelectorAndName(selector,name,"");
+	protected String getAttributeByMethodAndSelector(String selector, String name){
+		return getAttributeByMethodAndSelector(selector,name,"");
 	}
 	
 	public void addToExpected(String text) {
