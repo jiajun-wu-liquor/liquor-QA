@@ -42,7 +42,7 @@ public class firefoxTest implements Constants {
 		//r.tearDown();
 		
 		PublishTest p = new PublishTest(profilez);
-		p.begin(PostType.ARTICLE);
+		p.begin(PostType.RECIPE);
 		p.tearDown();
 		
 		//LoginTest l = new LoginTest(profilez);
@@ -99,7 +99,7 @@ public class firefoxTest implements Constants {
 		test = new BATtest();
 		this.resizeToWindow(5);
 		System.out.println("BAT test launched");
-		test.begin();
+		//test.begin();
 		test.summarise();
 	}
 	

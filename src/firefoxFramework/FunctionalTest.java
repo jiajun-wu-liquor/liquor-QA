@@ -18,9 +18,6 @@ import org.testng.annotations.BeforeTest;
 
 public class FunctionalTest extends FirefoxDriver implements Constants{
 	
-	int WAIT_TIME_LOAD_MILLISEC = 2500;
-	int WAIT_TIME_SIGNUP_MILLISEC = 2000;
-	
 	Random generator = new Random();
 	String[] summaryLog = new String[20];
 	long[] loadTimes = new long[10];
@@ -174,52 +171,6 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	}
 	protected boolean pageDoesContainID(String id) {
 		return this.findElements(By.id(id)).size() > 0;
-	}
-	
-	/*
-	protected String getFieldAttributeById(String attribute, String id) {
-		return this.findElement(By.id(id)).getAttribute(attribute);
-	}
-	protected String getFieldAttributeByClass(String attribute, String className) {
-		return this.findElement(By.className(className)).getAttribute(attribute);
-	}
-	protected String getFieldAttributeByXpath(String attribute, String xpath) {
-		return this.findElement(By.xpath(xpath)).getAttribute(attribute);
-	}
-	*/
-	
-	
-	// Eg: <input value="valueWanted" id="name"> : getAttributeBySelectorAndName("id","name", "value") == "valueWanted";
-	protected String getAttributeBySelectorAndName(String selector, String name, String attribute) { // getFieldAttributeByName(String attribute, String nameValue) {
-		By bySelector = null;
-		
-		switch (selector) {
-		case "name":
-			bySelector = By.name(name);
-			break;
-		case "id":
-			bySelector = By.id(name);
-			break;
-		case "class":
-			bySelector = By.className(name);
-			break;
-		case "xpath":
-			bySelector = By.xpath(name);
-			break;
-		default:
-			summaryLog("• Field cannot be foudn using this selector method");
-		}
-		
-		WebElement element = this.findElement(bySelector);
-		
-		if (element.getTagName() == "select") {
-			return new Select(element).getFirstSelectedOption().getText();
-		}
-		
-		return element.getAttribute(attribute);
-	}
-	protected String getAttributeBySelectorAndName(String selector, String name){
-		return getAttributeBySelectorAndName(selector,name,"");
 	}
 	
 	// Waiting function
