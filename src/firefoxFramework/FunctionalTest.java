@@ -1,5 +1,6 @@
 package firefoxFramework;
 
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.lang.System;
 import java.util.HashMap;
@@ -54,8 +55,9 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 				username = LOGIN_USER_GENERAL;
 		}
 		
+		
 		this.goToLink(TEST_HOMEPAGE + "wp-admin/");
-	    
+				
 	    // Fill in log in fields
 		waitOut();
 	    findElement(By.id("user_login")).sendKeys(username); 

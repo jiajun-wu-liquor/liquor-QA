@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<suite name="LDC functional test" allow-return-value="true" verbose="1" parallel="tests" thread-count="5">
-	<test name="bat" parallel="classes" thread-count="5">
+<suite name="LDC functional test" allow-return-value="true" verbose="1" parallel="tests" thread-count="6">
+	<test name="bat" parallel="classes" thread-count="6">
 		<classes>
 			<class name="firefoxFramework.firefoxTest">
 				<methods>
@@ -11,7 +11,7 @@
 		</classes>
 	</test>
 	
-	<test name="saveRecipe" preserve-order="true" thread-count="5">
+	<test name="saveRecipe" preserve-order="true" thread-count="6">
 		<classes>
 			<class name="firefoxFramework.firefoxTest">
 				<methods>
@@ -21,7 +21,7 @@
 		</classes>
 	</test>
 	
-	<test name="signUp" parallel="classes" thread-count="5">
+	<test name="signUp" parallel="classes" thread-count="6">
 		<classes>
 			<class name="firefoxFramework.firefoxTest">
 				<methods>
@@ -31,7 +31,7 @@
 		</classes>
 	</test>
 	
-	<test name="publishArticle" parallel="classes" thread-count="5">
+	<test name="publishRecipe" parallel="classes" thread-count="6">
 		<classes>
 			<class name="firefoxFramework.firefoxTest">
 				<methods>
@@ -41,7 +41,17 @@
 		</classes>
 	</test>
 	
-	<test name="login" parallel="classes" thread-count="5">
+	<test name="publishArticle" parallel="classes" thread-count="6">
+		<classes>
+			<class name="firefoxFramework.firefoxTest">
+				<methods>
+					<include name="publishArticleTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	
+	<test name="login" parallel="classes" thread-count="6">
 		<classes>
 			<class name="firefoxFramework.firefoxTest">
 				<methods>

@@ -64,6 +64,11 @@ public interface Constants {
 		public String TEST_DOMAIN = "dev.";
 		public String TEST_THEME = TEST_DOMAIN == "dev." ? "liquor2015" : "liquor";
 		
+		// • set false if don't want to waste Ghost Inspector credits
+		public boolean DO_BAT_TEST = false;
+		// • set false if dont want to create unnecessary new dummy users
+		public boolean DO_SIGNUP_TEST = false;
+		
 		public String AUTH_USER = "liquor";
 		public String AUTH_PASS = "negroni";
 		

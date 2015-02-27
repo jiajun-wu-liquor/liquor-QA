@@ -41,16 +41,16 @@ public class firefoxTest implements Constants {
 		//r.begin();
 		//r.tearDown();
 		
-		//PublishTest p = new PublishTest(profilez);
-		//p.begin(PostType.RECIPE);
-		//p.tearDown();
+		PublishTest p = new PublishTest(profilez);
+		p.begin(PostType.RECIPE);
+		p.tearDown();
 		
 		//LoginTest l = new LoginTest(profilez);
 		//l.begin();
 		//l.tearDown();
 	    
-		BATtest b = new BATtest();
-		b.begin();
+		//BATtest b = new BATtest();
+		//b.begin();
 	}
 	
 	@BeforeTest
@@ -60,26 +60,52 @@ public class firefoxTest implements Constants {
 	
 	@Test
 	public void signupTest() {
-		test = new SignupTest(profile);
-		//this.resizeToWindow(1);
-		System.out.println("Signup test launched");
-		test.begin();
-		test.tearDown();
+		if (DO_SIGNUP_TEST) {		
+			test = new SignupTest(profile);
+			//this.resizeToWindow(1);
+			System.out.println("Signup test launched");
+			test.begin();
+			test.tearDown();
+		}
 	}
 	
 	@Test
 	public void publishTest() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+		
 	    test = new PublishTest(profile);
-	    this.resizeToWindow(1);
+	    this.resizeToWindow(2);
 		System.out.println("Publish test launched");
 	    test.begin(PostType.RECIPE);
 	    test.tearDown();
 	}
 	
 	@Test
+	public void publishArticleTest() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+		
+	    test = new PublishTest(profile);
+	    this.resizeToWindow(5);
+		System.out.println("Publish test launched");
+	    test.begin(PostType.ARTICLE);
+	    test.tearDown();
+	}
+	
+	@Test
 	public void saveRecipeTest() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+		
 		test = new SaveRecipeTest(profile);
-		this.resizeToWindow(2);
+		this.resizeToWindow(8);
 		System.out.println("Save Recipe test launched");
 		test.begin();
 		test.tearDown();
@@ -88,7 +114,7 @@ public class firefoxTest implements Constants {
 	@Test
 	public void loginTest() {
 		test = new LoginTest(profile);
-		this.resizeToWindow(4);
+		this.resizeToWindow(7);
 		System.out.println("Login test launched");
 		test.begin();
 		test.tearDown();
@@ -96,11 +122,13 @@ public class firefoxTest implements Constants {
 	
 	@Test
 	public void BATtest() {
-		test = new BATtest();
-		this.resizeToWindow(5);
-		System.out.println("BAT test launched");
-		//test.begin();
-		test.summarise();
+		if (DO_BAT_TEST) {
+			test = new BATtest();
+			this.resizeToWindow(0);
+			System.out.println("BAT test launched");
+			test.begin();
+			test.summarise();
+		}
 	}
 	
 	public void resizeToWindow(int i) {
