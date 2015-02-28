@@ -98,6 +98,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 	}
 		
 	public String[] getExpectedValues(PostType postType) {
+		
 		if ( postType == PostType.ARTICLE) {
 			String title = getAttributeByMethodAndSelector("id", "title","value");
 			String content = getAttributeByMethodAndSelector("id", "content","innerHTML");
@@ -119,7 +120,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 			String ingredient = getAttributeByMethodAndSelector("name", "Ingredient[name][]", "value");
 			String amount = getAttributeByMethodAndSelector("name", "Ingredient[amount][]", "value");
 			String unit = getAttributeByMethodAndSelector("name", "Ingredient[unit][]");
-			//String glasstype = getAttributeByMethodAndSelector("id", "GlassType");
+			String glasstype = getAttributeByMethodAndSelector("id", "GlassType");
 			//String instructions = getAttributeByMethodAndSelector("id", "Instructions", "innerHTML");
 			String prep = getAttributeByMethodAndSelector("name", "PreparationStep[]", "value");
 			String featuredImg = getAttributeByMethodAndSelector("class", "attachment-266x266", "src"); // featureImg may become a legacy. prepare to remove
@@ -134,9 +135,9 @@ public class PublishTest extends FunctionalTest implements Constants {
 			addToExpected(about);
 			addToExpected(ingredient);
 			addToExpected(amount);
-			//addToExpected(glasstype); // TODO currently not added because the xpath is very hard to identify. add an id for it?
+			addToExpected(glasstype);
 			//addToExpected(instructions); // TODO instructions is not displayed in page
-			//addToExpected(prep);
+			addToExpected(prep);
 			addToExpected(featuredImg);
 		}
 		
@@ -144,6 +145,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 	}
 	
 	public String[] getActualValues(PostType postType) {
+		
 		// TODO format before addtoactual
 		if ( postType == PostType.ARTICLE) {
 			addToActual(getAttributeByMethodAndSelector("xpath", getSelectorName("article_header"), "innerHTML"));
@@ -160,26 +162,25 @@ public class PublishTest extends FunctionalTest implements Constants {
 			String about = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_about"), "innerHTML");
 			String ingredient = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_ingredient"), "innerHTML");
 			String unit = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_unit"), "innerHTML");
-			//String glasstype = getAttributeBySelectorAndName("xpath", getSelectorName("recipe_glasstype")); // xpath cannot be identified
+			String glasstype = getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_glasstype"), "innerHTML"); // xpath cannot be identified
 			//String instrucitons = CREATE XPATH FOR INSTRUCTIONS
-			// TODO change all these findelements with the new xpaths
-			//String prep = findElements(By.xpath(getSelectorName("recipe_prep"))).get(1).getAttribute("innerHTML"); 
-//					getSelectorName("recipe_prep"), "innerHTML");
+			String prep = this.getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_prep"), "innerHTML");
 			String featuredImg = this.getAttributeByMethodAndSelector("xpath", getSelectorName("recipe_img"), "src");
 			
 			// formatting
 			title = title.replace("The ", "").replace(" Cocktail", "");
 			ingredient = ingredient.replaceAll("	", "").replace("\n", "");
 			unit = unit.replaceAll("	", "").replace("\n", "");
+			prep = prep.replace(". ", "");
 			featuredImg = featuredImg.replace("-300x93", "");
 			
 			addToActual(title);
 			addToActual(about);
 			addToActual(ingredient);
 			addToActual(unit);
-			//addToActual(glasstype);
+			addToActual(glasstype);
 			//addToActual(instructions);
-			//addToActual(prep);
+			addToActual(prep);
 			addToActual(featuredImg);
 		}
 		

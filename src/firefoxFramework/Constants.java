@@ -26,7 +26,6 @@
  * - Git to retrieve pre-existing code from JJ<jj@liquor.com>
  * - Java Developer's Kit (JDK) + IDE (Eclipse recommended for easy downloading of other frameworks)
  * - TestNG (for parallel running of several tests)
- * - AutoAuth
  * - Maybe selenium grid
  * - If using ChromeDriver (a separate chrome driver .exe that connects selenium to chrome. NOT same as org.selenium.ChromeDriver class)
  * 
@@ -104,20 +103,12 @@ public interface Constants {
 					
 					put("recipe_header", "//div[@class='row head-row text-center']/div/h1");
 					put("recipe_img", "//div[@id='img-hero']");  
-					put("recipe_about", "//div[@class='container recipe-container']/div/div/div/div/p");
-					put("recipe_ingredient", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-9']");
-					put("recipe_unit", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-3 text-right']");
-					//put("recipe_glasstype", "//div[@class='row ingredients-preparation']/div/div[3]/div[@class='col-xs-9']"); // xpath cannot be identified
-					//put("recipe_prep", "//div[@class='row ingredients-preparation']/div/div[@class='row']/div[@class='col-xs-3 text-right']");
+					put("recipe_about", "//div[@class='col-xs-12 fake-row x-recipe-about']/p");
+					put("recipe_ingredient", "//div[@class='col-xs-9 x-recipe-ingredient']");
+					put("recipe_unit", "//div[@class='row x-recipe-unit']/div");
+					put("recipe_glasstype", "//div[@class='col-xs-9 x-recipe-glasstype']");
+					put("recipe_prep", "//div[@class='row x-recipe-prep']/p");
 					put("recipe_img", "//div[@id='img-hero']/img");
-					
-					/* new recipe xpaths
-					put("recipe_about", "//div[@class='x-recipe-about]");
-					put("recipe_ingredient", "//div[@class='x-recipe-ingredient]");
-					put("recipe_unit", "//div[@class='x-recipe-unit]/div");
-					put("recipe_glasstype", "//div[@class='x-recipe-glasstype]/div[@class='x-recipe-glasstype]");
-					put("recipe_prep", "//div[@class='x-recipe-prep']");
-					*/
 					
 					put("save_recipe_button", "//button[@class='btn btn-default btn-save']");
 					put("unsave_recipe_button", "//span[@class='message']");
@@ -146,7 +137,7 @@ public interface Constants {
 		
 		// System settings - window resizing
 		int windowWidth = (int)(1920/3/1.3);
-		int windowHeight = (int)(1080/3);
+		int windowHeight = (int)(900/3);
 		
 		int WAIT_TIME_LOAD_MILLISEC = 2500;
 		int WAIT_TIME_SIGNUP_MILLISEC = 2000;

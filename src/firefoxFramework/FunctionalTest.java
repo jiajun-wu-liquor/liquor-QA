@@ -59,7 +59,7 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 		this.goToLink(TEST_HOMEPAGE + "wp-admin/");
 				
 	    // Fill in log in fields
-		waitOut();
+		waitOutFor("user_login", "id");
 	    findElement(By.id("user_login")).sendKeys(username); 
 	    findElement(By.id("user_pass")).sendKeys(LOGIN_PASS);
 	    
@@ -176,20 +176,30 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	}
 	
 	// Waiting function
-	protected void waitOut() {
-		try	{
-	    	Thread.sleep(WAIT_TIME_LOAD_MILLISEC);
-	    } catch (Exception e) {
-	    }
+	protected void waitOutFor(String selector, String byMethod) {
 		
-		// TODO try this wait method
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("includeStudents")));		
-		// TODO try this wait method
-		//WebDriverWait wait = new WebDriverWait(driver, 10);
-		//WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ID")));
-		// TODO try this wait method
-		// Put a Implicit wait, this means that any search for elements on the page could take the time the implicit wait is set for before throwing exception
-		//this.manage().timeouts().implicitlyWait(LOAD_WAIT_TIME, TimeUnit.SECONDS);
+		By bySelector = null;
+		switch (byMethod) {
+		case "name":
+			bySelector = By.name(selector);
+			break;
+		case "id":
+			bySelector = By.id(selector);
+			break;
+		case "class":
+			bySelector = By.className(selector);
+			break;
+		case "xpath":
+			bySelector = By.xpath(selector);
+			break;
+		default:
+			summaryLog("• Field cannot be foudn using this selector method");
+		}
+		
+		WebDriverWait wait = new WebDriverWait(this, 20);
+		wait.until(ExpectedConditions.presenceOfElementLocated(bySelector));
+				
+		//ExpectedConditions.visibilityOfElementLocated(By.id("ID")));
 	}
 	
 	protected void waitOut(int customWaitTime) {
@@ -197,6 +207,9 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	    	Thread.sleep(customWaitTime);
 	    } catch (Exception e) {
 	    }
+	}
+	protected void waitOut() {
+		waitOut(WAIT_TIME_LOAD_MILLISEC);
 	}
 	
 	// Page loading time functions
