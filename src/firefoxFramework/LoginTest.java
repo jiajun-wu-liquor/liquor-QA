@@ -1,12 +1,19 @@
 package firefoxFramework;
 
+import java.net.URL;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.internal.Locatable;
 
 public class LoginTest extends FunctionalTest implements Constants {
 	public LoginTest(FirefoxProfile profile){
 		super(profile);
+	}
+	
+	public LoginTest(URL url, Capabilities caps) {
+		super(url, caps);
 	}
 	
 	public void begin() {

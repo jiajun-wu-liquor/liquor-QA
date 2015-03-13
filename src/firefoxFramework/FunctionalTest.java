@@ -3,6 +3,7 @@ package firefoxFramework;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.lang.System;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,6 +11,7 @@ import java.util.Random;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -17,7 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-public class FunctionalTest extends FirefoxDriver implements Constants{
+public class FunctionalTest extends /*RemoteWebDriver*/ FirefoxDriver implements Constants{
 	
 	Random generator = new Random();
 	String[] summaryLog = new String[20];
@@ -33,6 +35,9 @@ public class FunctionalTest extends FirefoxDriver implements Constants{
 	}
 	public FunctionalTest(FirefoxProfile profile) {
 		super(profile);
+	}
+	public FunctionalTest(URL url, Capabilities caps) {
+		//super(url, caps);
 	}
 	
 	public void begin() {					// for error-free calling of child functions

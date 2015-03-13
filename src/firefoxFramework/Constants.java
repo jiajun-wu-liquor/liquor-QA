@@ -60,13 +60,13 @@ import java.util.Map;
 public interface Constants {
 	
 		// Domain and theme settings
-		public String TEST_DOMAIN = "dev.";
-		public String TEST_THEME = TEST_DOMAIN == "dev." ? "liquor2015" : "liquor";
+		public String TEST_DOMAIN = "stg."; // "dev." or "stg." or ""
+		public String TEST_THEME = /*TEST_DOMAIN == "" ?*/ "liquor2015" ;//: "liquor";
 		
 		// • set false if don't want to waste Ghost Inspector credits
 		public boolean DO_BAT_TEST = false;
 		// • set false if dont want to create unnecessary new dummy users
-		public boolean DO_SIGNUP_TEST = false;
+		public boolean DO_SIGNUP_TEST = true;
 		
 		public String AUTH_USER = "liquor";
 		public String AUTH_PASS = "negroni";
@@ -103,7 +103,7 @@ public interface Constants {
 					
 					put("recipe_header", "//div[@class='row head-row text-center']/div/h1");
 					put("recipe_img", "//div[@id='img-hero']");  
-					put("recipe_about", "//div[@class='col-xs-12 fake-row x-recipe-about']/p");
+					put("recipe_about", "//div[@class='col-xs-12 fake-row x-recipe-about']/span/p");
 					put("recipe_ingredient", "//div[@class='col-xs-9 x-recipe-ingredient']");
 					put("recipe_unit", "//div[@class='row x-recipe-unit']/div");
 					put("recipe_glasstype", "//div[@class='col-xs-9 x-recipe-glasstype']");

@@ -108,6 +108,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 			title = title.replace('-', '–');
 			content = content.replaceAll("&lt;p&gt;", "").replaceAll("&lt;/p&gt;\n", "");
 			featuredImg = featuredImg.replaceAll("-300x93", "");
+			featuredImg = featuredImg.replaceAll("-logo", "");
 			
 			addToExpected(title);
 			addToExpected(content);
@@ -126,7 +127,7 @@ public class PublishTest extends FunctionalTest implements Constants {
 			String featuredImg = getAttributeByMethodAndSelector("class", "attachment-266x266", "src"); // featureImg may become a legacy. prepare to remove
 			
 			// formatting
-			title = title.replace("-", "–");
+			//title = title.replace("-", "–");
 			int delimDecimal = amount.indexOf('.');
 			amount = amount.substring(0, delimDecimal) + " " + unit;
 			featuredImg = featuredImg.replaceAll("-300x93", "");

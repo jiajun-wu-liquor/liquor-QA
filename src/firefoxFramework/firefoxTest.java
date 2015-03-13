@@ -10,28 +10,28 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+
 public class firefoxTest implements Constants {
 	
 	FirefoxProfile profile = new FirefoxProfile();
 	FunctionalTest test = null;
 	
-	public static void main(String[] args) {
-	    
+	public static final String USERNAME = "liquorcom1";
+	public static final String AUTOMATE_KEY = "rut8ZXz8rqZyjRkwqfsh";
+	public static final String URL = "http://" + USERNAME + ":" + AUTOMATE_KEY + "@hub.browserstack.com/wd/hub";
+	
+	 public static void main(String[] args) throws Exception {
+		 
+		
 		FirefoxProfile profilez = new FirefoxProfile(new File("C:////Users//david//AppData//Roaming//Mozilla//Firefox//Profiles//31j2jky2.liquor"));
 		profilez.setPreference("webdriver.load.strategy", "unstable");
-		
-		/*profilez.setPreference("network.negotiate-auth.trusteduris", "http://dev.liquor.com");
-		try {
-			profilez.addExtension(new File("C:////Users//david//workspace//addons//autoauth-2.1-fx+fn.xpi"));
-		} catch (IOException e) {
-			System.out.println("AutoAuth extension not found");
-			e.printStackTrace();
-		}*/
-		
-		/*
-		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
-	    ChromeBrowser chrome = new ChromeBrowser();
-	    */
 	    
 	    //SignupTest s = new SignupTest(profilez);
 		//s.begin();
@@ -42,7 +42,7 @@ public class firefoxTest implements Constants {
 		//r.tearDown();
 		
 		PublishTest p = new PublishTest(profilez);
-		p.begin(PostType.RECIPE);
+		p.begin(PostType.ARTICLE);
 		p.tearDown();
 		
 		//LoginTest l = new LoginTest(profilez);
@@ -51,6 +51,25 @@ public class firefoxTest implements Constants {
 	    
 		//BATtest b = new BATtest();
 		//b.begin();
+		
+		
+		/*
+	    DesiredCapabilities caps = new DesiredCapabilities();
+	    caps.setCapability("os", "Windows");
+	    caps.setCapability("os_version", "7");
+	    caps.setCapability("browser", "IE");
+	    caps.setCapability("browser_version", "9.0");
+	    caps.setCapability("resolution", "1024x768");
+	    caps.setCapability("browserstack.debug", true);
+
+	    LoginTest driver = new LoginTest(new URL(URL), caps);
+	    
+	    driver.goToLink(TEST_HOMEPAGE + "wp-admin/");
+		driver.login();
+		driver.logout();
+	    
+	    driver.quit();
+	    */
 	}
 	
 	@BeforeTest
@@ -62,7 +81,7 @@ public class firefoxTest implements Constants {
 	public void signupTest() {
 		if (DO_SIGNUP_TEST) {		
 			test = new SignupTest(profile);
-			//this.resizeToWindow(1);
+			//this.resizeToWindow(0);
 			System.out.println("Signup test launched");
 			test.begin();
 			test.tearDown();
@@ -105,7 +124,7 @@ public class firefoxTest implements Constants {
 		}
 		
 		test = new SaveRecipeTest(profile);
-		this.resizeToWindow(8);
+		this.resizeToWindow(4);
 		System.out.println("Save Recipe test launched");
 		test.begin();
 		test.tearDown();
@@ -114,7 +133,7 @@ public class firefoxTest implements Constants {
 	@Test
 	public void loginTest() {
 		test = new LoginTest(profile);
-		this.resizeToWindow(7);
+		this.resizeToWindow(1);
 		System.out.println("Login test launched");
 		test.begin();
 		test.tearDown();
@@ -147,6 +166,19 @@ public class firefoxTest implements Constants {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }*/
+	    
+		/*profilez.setPreference("network.negotiate-auth.trusteduris", "http://dev.liquor.com");
+		try {
+			profilez.addExtension(new File("C:////Users//david//workspace//addons//autoauth-2.1-fx+fn.xpi"));
+		} catch (IOException e) {
+			System.out.println("AutoAuth extension not found");
+			e.printStackTrace();
+		}*/
+		
+		/*
+		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_PATH);
+	    ChromeBrowser chrome = new ChromeBrowser();
+	    */
 	    
 	    return profile;
 	}
